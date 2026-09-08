@@ -5,7 +5,7 @@ import { variantBySlug } from "@/variants/registry";
 const variant = variantBySlug["v2-sanctuary"];
 
 export const metadata: Metadata = {
-  title: `${variant.name} Film archive`,
+  title: "Vivír · Films",
   description: `Vivír ${variant.name} film archive.`,
 };
 

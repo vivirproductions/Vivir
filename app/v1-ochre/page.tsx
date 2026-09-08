@@ -5,7 +5,7 @@ import { variantBySlug } from "@/variants/registry";
 const variant = variantBySlug["v1-ochre"];
 
 export const metadata: Metadata = {
-  title: variant.title,
+  title: "Vivír",
   description: variant.description,
 };
 

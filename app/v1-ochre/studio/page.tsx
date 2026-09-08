@@ -5,7 +5,7 @@ import { variantBySlug } from "@/variants/registry";
 const variant = variantBySlug["v1-ochre"];
 
 export const metadata: Metadata = {
-  title: `${variant.name} Studio`,
+  title: "Vivír · Studios",
   description: `Vivír ${variant.name} studio page.`,
 };
 

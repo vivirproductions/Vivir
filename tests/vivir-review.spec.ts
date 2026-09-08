@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 const approvedRoutes = [
-  { path: "/v1-ochre", title: /Vivír - Ink & Ochre/, accent: "rgb(200, 128, 42)" },
-  { path: "/v2-sanctuary", title: /Vivír - Ink & Sanctuary/, accent: "rgb(168, 137, 79)" },
-  { path: "/v4-blue", title: /Vivír - Ink & Blue/, accent: "rgb(0, 150, 199)" },
+  { path: "/v1-ochre", title: "Vivír", accent: "rgb(200, 128, 42)" },
+  { path: "/v2-sanctuary", title: "Vivír", accent: "rgb(168, 137, 79)" },
+  { path: "/v4-blue", title: "Vivír", accent: "rgb(0, 150, 199)" },
 ] as const;
 
 const workTargets = [
@@ -99,6 +99,7 @@ for (const route of approvedRoutes) {
   test(`${route.path}/films is a dedicated Film archive page`, async ({ page }) => {
     const response = await page.goto(`${route.path}/films`);
     expect(response?.status()).toBe(200);
+    await expect(page).toHaveTitle("Vivír · Films");
     await expect(page.locator("main#main[data-page='films']")).toBeVisible();
     await expect(page.locator("#films-h")).toHaveText("Film archive");
     await expect(page.locator(".films")).toBeVisible();
@@ -111,6 +112,7 @@ for (const route of approvedRoutes) {
   test(`${route.path}/studio is a dedicated Studio page`, async ({ page }) => {
     const response = await page.goto(`${route.path}/studio`);
     expect(response?.status()).toBe(200);
+    await expect(page).toHaveTitle("Vivír · Studios");
     await expect(page.locator("main#main[data-page='studio']")).toBeVisible();
     await expect(page.locator(".studio")).toBeVisible();
     await expect(page.locator(".hero, .index, .films, #lightbox")).toHaveCount(0);

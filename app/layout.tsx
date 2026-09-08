@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Vivír Color Review",
-    template: "%s | Vivír Color Review",
-  },
+  title: "Vivír",
   description: "Review selector for the approved Vivír color directions.",
   robots: {
     index: false,
