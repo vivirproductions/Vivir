@@ -154,6 +154,21 @@ test("Film archive uses the organized source-video titles", async ({ page }) => 
   await expect(page.locator(".films .film .film__cap")).toHaveText(archiveTitles);
 });
 
+test("desktop Work index keeps a restrained editorial scale", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop", "Desktop type scale only");
+  await page.goto("/v1-ochre#work");
+  const rowName = page.locator(".row__name").first();
+  const metrics = await rowName.evaluate((element) => {
+    const row = element.closest(".row");
+    return {
+      fontSize: Number.parseFloat(getComputedStyle(element).fontSize),
+      rowHeight: row?.getBoundingClientRect().height ?? 0,
+    };
+  });
+  expect(metrics.fontSize).toBeLessThanOrEqual(40);
+  expect(metrics.rowHeight).toBeLessThanOrEqual(72);
+});
+
 test("Film archive filters hide unmatched tiles and All restores the archive", async ({ page }) => {
   await page.goto("/v1-ochre/films");
   const films = page.locator(".films .film");

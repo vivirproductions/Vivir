@@ -240,7 +240,7 @@ nav a[aria-current="page"]{opacity:1;border-bottom-color:var(--accent)}
 .snd[aria-pressed="true"] .snd__dot{background:var(--accent)}
 .hero__actions .snd{margin-left:0}
 
-/* ══ THE INDEX. Nine rows, hairline separated. The heart of the page. ═══════════════ */
+/* ══ THE INDEX. Eight rows, hairline separated. The heart of the page. ══════════════ */
 .index{position:relative;background:var(--surface);padding-block:clamp(38px,6vw,72px);
   scroll-margin-top:92px}
 
@@ -312,9 +312,18 @@ nav a[aria-current="page"]{opacity:1;border-bottom-color:var(--accent)}
 .row__thumb img{width:100%;height:100%;object-fit:cover}
 .row__pending{display:flex;align-items:center;justify-content:center;height:100%;text-align:center;padding:0 10px}
 
+/* The index is an editorial navigation layer, not the landing-page headline. At desktop
+   scale, a tighter type cap and shorter rhythm keep more work in view at normal zoom. */
+@media (min-width:900px){
+  .index{padding-block:clamp(32px,4.4vw,60px)}
+  .index__head{margin-bottom:clamp(16px,2vw,24px)}
+  .row{padding:clamp(8px,.9vw,12px) 0;min-height:clamp(54px,4.6vw,72px)}
+  .row__name{font-size:clamp(22px,2.5vw,40px);line-height:1.04;letter-spacing:-.018em}
+}
+
 @media (max-width:899px){
   /* NO HOVER ON TOUCH, so the backdrop is dropped entirely and every row carries its own
-     still inline instead. Nine rows of text and no pictures is not an option. */
+     still inline instead. Eight rows of text and no pictures is not an option. */
   .stage{display:none}
   .row{grid-template-columns:clamp(88px,26vw,150px) minmax(0,1fr);
     grid-template-areas:"thumb no" "thumb name" "thumb kind";
