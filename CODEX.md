@@ -1,133 +1,208 @@
 # CODEX.md - Vivir Project Instructions
 
-## Project Goal
+This file and `CLAUDE.md` are meant to describe the same project facts. They exist as two
+files because Codex runs as a single agent here, not as the multi-agent orchestrator Claude
+Code uses - so this file skips the agent-roster and handoff-format material that only makes
+sense inside that pipeline, and keeps everything else in sync. If the two files ever disagree
+on a fact (palette values, consent rules, what exists on disk), `CLAUDE.md` is the source of
+truth and this file is stale - update this file to match, not the other way around.
 
-Vivir should be prepared as one GitHub repository and one Vercel project that lets reviewers view
-three approved color directions:
+## What Vivir Is
 
-- V1 - Ochre
-- V2 - Sanctuary
-- V4 - Blue
+A production and media studio in Iloilo City, Philippines. Photography and cinematography:
+same-day edits for corporate and faith events, pageants, pre-wedding, pre-debut, tourism and
+advocacy films. There are two positioning documents in tension - a faith/testimony framing
+("Digital Missionaries, Unveiling Testimonies") and a 2024 Canva brand book describing a
+wedding/corporate photography studio with two named founders. Both are true of the same
+company; the media library itself (this folder's `Videos/`) contains both kinds of work.
+Hanz has not confirmed which framing leads. Treat all copy as swappable until he does.
 
-Do not ship or surface V3 - Oxblood unless Hanz explicitly asks for it again.
+## Repo and Deploy State (current, not aspirational)
 
-Target GitHub repository:
+- `C:\Users\Admin\Documents\Vivir` **is** a git repository. Remote:
+  `https://github.com/vivirproductions/Vivir`. Do not run `git init` - it already exists.
+- A Next.js 16 App Router app is scaffolded: `app/`, `src/`, `public/`, TypeScript, deployed to
+  Vercel as `vivirproduction-1227`. `package.json` name is `vivir-three-version-review`.
+- The Next.js app currently serves a **review selector** - `/`, `/v1-ochre`, `/v2-sanctuary`,
+  `/v4-blue` - showing the three approved color directions built from the older
+  `prototypes/ink-v*` folders via `src/variants/registry.ts` and
+  `scripts/extract-variants.mjs`. That task is done and already committed
+  (`Prepare Vercel review for V1 V2 V4 color directions`).
+- **Do not run any git command that writes** - no `add`, `commit`, `push`, `reset`. Read-only
+  git (`status`, `log`, `diff`, `check-ignore`) is fine. Hanz has said explicitly, more than
+  once, not to push until he has reviewed locally. Version control is the orchestrator's job.
+- V3 Oxblood is not "excluded from the selector" - it is **fully deleted**, everywhere:
+  `prototypes/film-v3-oxblood`, `prototypes/ink-v3-oxblood`, `prototypes/v6-oxblood`, its
+  README section, its exported HTML. If you find a reference to it, that reference is stale;
+  remove it rather than restore the folder. Three approved directions only: Ochre, Sanctuary,
+  Blue.
 
-- https://github.com/vivirproductions/Vivir
+## The Active Work: a Landing Page, Separate From the Selector
 
-Target deployment:
+The review-selector app above and the actual **landing page** are two different things living
+in the same repo. The landing page is being built and iterated as static HTML in
+`prototypes/film-v1-ochre/`, `prototypes/film-v2-sanctuary/`, `prototypes/film-v4-blue/` - one
+`index.src.html` per direction, built to `index.html` by `prototypes/shared/build.py`. It is
+**not yet wired into the Next.js app** - it is viewed locally via
+`python -m http.server 8090` from the repo root, then opening
+`/prototypes/film-v1-ochre/index.html`. The three files are deliberately near-identical:
+same layout, same copy, same scripts, differing only in CSS custom-property colour values and
+title. Preserve that when editing - a change that isn't a colour token should land in all
+three, or the port relationship is broken.
 
-- Vercel, as a single project connected to the GitHub repo above.
+Format: a full-bleed video hero (the client's own footage, not a mockup) over a nine-row film
+index (number, name, kind), not a thumbnail grid. Reference brief was lulafilms.com for the
+*idea* of restraint and minimal text; the actual shipped page deliberately does not resemble it
+structurally (Hanz rejected an earlier pass for looking too much like it). Type is Archivo,
+weights 300 and 400 only - Hanz asked twice for lighter, less bold type. Do not add 500/600/700
+anywhere on this page.
 
-## Current Source Context
+The hero video lives at `public/media/hero.mp4` - full native resolution (1920x800), the
+client's real footage with its own audio, about 88 MiB. That is intentional: GitHub's real
+block is 100 **MiB** (104,857,600 bytes), not 100 MB, and Hanz asked for full resolution rather
+than a downscale. Do not re-encode or shrink it without being asked - a prior smaller cut was
+explicitly rejected once he clarified he wanted the whole file at full quality. The nine work
+stills live in `public/media/work/*.jpg`.
 
-Project folder:
+## Build and Verify
 
-- `C:\Users\Admin\Documents\Vivir`
+```
+python prototypes/shared/build.py film-v1-ochre film-v2-sanctuary film-v4-blue
+node prototypes/shared/palette-audit.mjs
+python -m http.server 8090        # from the repo root, so /media/... resolves
+```
 
-Important local prototype folders:
+`build.py` builds every `*.src.html` in a named folder, not just `index.src.html` - pass a
+folder name, never run it bare while another folder is mid-edit. `palette-audit.mjs` greps
+every hex literal in each `index.src.html` against that file's own line-8
+`<!-- palette: ... -->` comment; a retired colour value must be written in words or `hsl()` in
+a comment, never as a hex, or the audit fails for a reason that looks like nonsense.
 
-- `prototypes/ink-v1-ochre`
-- `prototypes/ink-v2-sanctuary`
-- `prototypes/ink-v4-blue`
+## Inquiry Form / Email
 
-Reference-only or excluded from the shipped selector:
+`app/api/inquiry/route.ts` is a Next.js route handler (Node runtime, forced - nodemailer
+cannot run on Edge) that emails a real inquiry to `vivir.production@gmail.com` over Gmail SMTP.
+Credentials are `GMAIL_USER` / `GMAIL_APP_PASSWORD`, read from environment only - `.env.local`
+locally (gitignored), the Vercel project's Environment Variables in production. Never write a
+real credential into any file in this repo; `.env.example` holds placeholders only. The route
+has a honeypot field (`company`), field-level validation, and returns a clean operator-facing
+503 if the env vars are absent rather than crashing or silently discarding mail. Tests live in
+`tests/inquiry-route.spec.ts` (Playwright) and stub the SMTP transport - running the suite must
+never send real mail. If you change this route, prove the test-honesty gate: green with the
+change, then break the specific behaviour and confirm the specific test goes red, then restore
+and confirm green again. Report all three states.
 
-- `prototypes/ink-v3-oxblood`
-- older directions under `prototypes/v1-deep`, `prototypes/v2-daylight`, `prototypes/v3-story`,
-  `prototypes/v4-ink`, `prototypes/v5-sanctuary`, and `prototypes/v6-oxblood`
+**The dev server, when running, holds the real app password.** A real POST to
+`localhost:3000/api/inquiry` sends actual mail to the client's inbox. Do not smoke-test this
+route by hand against the live dev server; use the stubbed test suite.
 
-For each prototype folder, edit `index.src.html` by hand. `index.html` is generated by
-`prototypes/shared/build.py`, which injects base64 assets from `prototypes/shared/assets.json`.
-After changing a `.src.html` file, rebuild before verifying.
+## Consent - the non-negotiable gate
 
-Claude artifact references supplied by Hanz:
+Consent is **UNCLEARED** for everything except the studio's own contact address. This is not a
+formality; it has already caused one real defect this project shipped and then had to fix: two
+of the nine work-grid stills (a pageant photo and a "Jesus Reigns" ministry-branded photo) were
+pulled straight from the client's raw footage and legibly showed a competing brand name, an
+event year, and identifiable people, before an independent review caught it. The footage itself
+is authorised to use; naming or branding within it is not.
 
-- V1 - Ochre: `https://claude.ai/code/artifact/24fe03de-9772-4d2f-8d8e-c5cb7ef4cf4d`
-- V2 - Sanctuary: `https://claude.ai/code/artifact/358a027e-3bd7-4ac3-b9c6-c8df789c82cb`
-- V4 - Blue: `https://claude.ai/code/artifact/649dec85-aa80-4d5f-aca1-1b8697a4f280`
+Rules, concretely:
+- No real person's, couple's, client's, church's or ministry's name anywhere, visible or in a
+  source comment.
+- No year attached to any specific piece of work (a year asserts when Vivir filmed it - that's
+  a company fact, not a placeholder).
+- No invented testimonial, quote, or review. No asserted company fact - no founding year,
+  founders, head count, film count, years active, awards, client count, street address.
+- If a frame from the real media library carries legible branding, a name, or a year burnt into
+  the footage, do not use that frame. Pulling a different, cleaner frame from the same source
+  video is usually possible and is the first thing to try; if it genuinely is not (an entire
+  source video is branded/solo-portrait throughout), the correct move is a visibly labeled
+  placeholder in that slot, not a marginal frame that "probably" reads as fine at delivery size.
+  This project's own bracket convention is `[Thing - to be confirmed]`, rendered as real text in
+  the page, never only in a comment. A label that exists only in a comment is not a label.
+- Never fabricate a testimony. Placeholder story copy must read as placeholder, not as a
+  plausible invented account - "lorem ipsum, never a plausible fake."
 
-Excluded artifact:
+## Brand Facts (condensed - `CLAUDE.md` has the full version with sourcing)
 
-- V3 - Oxblood: `https://claude.ai/code/artifact/51da3d84-f3e8-4109-8be7-d82cade96c23`
+**Palette**, nine steps, printed as hex in the client's own Canva brand book - this is the
+closed set for the original brand-locked prototypes (`v1-deep`, `v2-daylight`, `v3-story`):
+`#03045E #023E8A #0077B6 #0096C7 #00B4D8 #48CAE4 #90E0EF #ADE8F4 #CAF0F8`, plus pure `#FFFFFF`
+and `#000000`. The three current landing-page directions (Ochre, Sanctuary, Blue) are
+**exploratory** and each declares its own five-or-six-value palette on line 8 of its own file,
+audited against exactly that declared set, not the brand nine - Hanz explicitly authorised
+non-blue palettes for exploratory work. The **logo files are excluded from that exception** -
+they ship in fixed black/white only and are never recoloured, per the brand book's own rule
+against altering the mark.
 
-## Build Direction
+**Marks**: the VIVIR wordmark (angular, no curves, mixed heavy-strokes-and-hairlines) and a
+separate curved V mark (the brand book's own words: "evokes movement and dynamism"), plus an
+aperture submark. Never rotate, crop, recolour, or retypeset any of them.
 
-If production code does not yet exist, scaffold a simple Vercel-ready app in this folder. Prefer
-the repo's existing framework if one appears; otherwise use a conservative Next.js or static
-Vite setup that Vercel can build without custom server code.
+**Type**: Brown Sugar is the brand book's named display face, used for the older `ink-v*`
+review prototypes (embedded as a 17 KB woff2). The current landing-page rebuild deliberately
+does **not** use it - Archivo throughout, weights 300/400 only, loaded from
+`fonts.googleapis.com` (the only external script/style host the Artifact CSP and this project's
+own convention allow). This is a live decision, not an oversight - don't "restore" Brown Sugar
+to the landing page without being asked.
 
-The first deployed screen should be the actual review experience, not a marketing landing page.
-It should provide only these three visible entries:
+## Traps - real bugs this project has already paid for
 
-- `V1 - Ochre`
-- `V2 - Sanctuary`
-- `V4 - Blue`
+**The wordmark loses its hairlines below 402 CSS px of rendered width**, and silently reads
+"VIV R" - the failure doesn't look broken, it just looks like a different, wrong logo. Fix:
+headers use the standalone V mark, sized by height with `width:auto`; the full wordmark only
+appears at 420px+ (a hero, not a header), or not at all.
 
-Expected routes or views:
+**IntersectionObserver strands content at opacity 0 forever** if an anchor jump, an End
+keypress, or a restored scroll position carries an element past the observer without it ever
+firing - measured at 8, 11, 13, then 15 of 16 stranded elements across different builds of this
+same project. The current landing-page format avoids the whole failure class by not using a
+scroll-reveal at all: everything is visible at rest, and the only JS-driven motion is a hover/
+focus crossfade on the work-index backdrop.
 
-- `/` - selector or overview with links/previews for only the three approved directions
-- `/v1-ochre` - V1 Ochre direction
-- `/v2-sanctuary` - V2 Sanctuary direction
-- `/v4-blue` - V4 Blue direction
+**A published Claude Artifact wraps the page in a shell defaulting to `color-scheme:light`** -
+a near-black page then gets a light scrollbar track down its right edge, invisible in every
+local test because the wrapper doesn't exist locally. Fix is one `color-scheme:dark;` in the
+page's own `:root`, with a comment explaining why, or the next editor deletes it as redundant.
 
-Do not add a route, tab, card, menu item, or visible label for V3 Oxblood.
+**The palette audit only greps hex literals** - it can't tell a colour that's *used* from one
+that's merely *discussed*. Write a retired value in words or `hsl()` in a comment, never as a
+hex, or a correct build fails for a reason that looks like nonsense.
 
-## Git and Repo Safety
+**A fragment deep link (`#studio`) can land short of the target.** Chromium runs its fragment
+scroll after an end-of-body script, so any script touching layout on load wins the race. Fix is
+a guarded re-assertion of the target scroll on `requestAnimationFrame` twice, then again on
+`load`. Do not set `history.scrollRestoration = 'manual'` as a fix - it trades this bug for a
+worse one, losing the reader's scroll position on every back-navigation.
 
-As of 2026-09-04, `git rev-parse --show-toplevel` from this folder returned `C:/Users/Admin`,
-which means the local Git root may accidentally include the whole Windows user profile. Before any
-push, fix this so only the Vivir project is committed.
+**A session's first full-page screenshot differs from every one after it**, even on a
+completely static page with zero animation - this is the screenshot tool settling on its first
+call, not the page. Take one throwaway capture before the pair you actually intend to compare.
 
-Before pushing:
-
-- Confirm the working Git root is the Vivir project folder or a clean clone of
-  `https://github.com/vivirproductions/Vivir`.
-- Do not commit the user's home directory, personal files, cache folders, or unrelated downloads.
-- Do not commit `.vercel`, browser cache folders, Playwright cache folders, or generated local
-  environment files.
-- Do not commit large archive files such as `BACKUP FILE.zip` or
-  `drive-download-20260903T163443Z-1-003.zip` unless Hanz explicitly requests archival storage in
-  the repo.
-
-If a `.gitignore` is missing, create one before the first real commit.
-
-## Brand and Content Guardrails
-
-Vivir is a production and media studio. The working direction combines:
-
-- visual identity from the Canva brand book and existing logo assets
-- current positioning around testimony-driven media
-
-Until Hanz confirms otherwise, keep real testimony content out of the site. Consent is not cleared
-for real names, churches, faces, quotes, or identifying story details.
-
-Rules:
-
-- No fabricated testimonies.
-- Any placeholder story copy must be visibly labeled as draft or placeholder in the page itself.
-- Do not invent clients, ministries, names, quotes, or production history.
-- Handle faith, testimony, grief, abuse, addiction, mental health, and sensitive life stories with
-  restraint.
-- Keep visual variants faithful to their named palettes and do not recolor the core logo assets
-  unless Hanz specifically approves it.
+**GitHub's real per-file block is 100 MiB (104,857,600 bytes), not 100 MB.** Do the arithmetic
+in MiB before declaring a video asset "too big for git" - a bitrate adjustment at full
+resolution often clears it without any quality loss or external hosting.
 
 ## Verification Checklist
 
 Before handing work back:
-
-- The project builds locally with the chosen Vercel framework command.
-- The root view shows only V1 Ochre, V2 Sanctuary, and V4 Blue.
-- V3 Oxblood is not visible in navigation, selector UI, routes, metadata, or deployment links.
-- Each approved direction renders correctly on desktop and mobile widths.
-- There is no horizontal scroll caused by the layout.
-- Console errors are checked in a real browser when possible.
-- The repo state is reviewed so only project files are staged for GitHub.
+- The relevant `prototypes/*/index.src.html` builds clean (`build.py`, named folder) and the
+  palette audit exits 0.
+- No horizontal scroll at 375, 768, 1440 CSS px.
+- Every interactive element has a visible keyboard focus state.
+- Console is clean in a real browser.
+- Nothing under `Videos/` (the 700 MB-class raw masters) was opened, moved, or re-encoded.
+- No git write command was run.
+- The consent rules above hold on the *rendered* page, not just the source - read the built
+  page's visible text and check every image, not only the HTML you wrote.
 
 ## Preferred Working Style
 
-- Keep changes scoped to preparing the reviewable Vercel project.
-- Reuse existing prototype markup, copy, and palette decisions where practical.
-- Preserve generated/source separation: edit source files, then regenerate outputs.
-- Use clear commit messages that mention the approved directions, for example:
-  `Prepare Vercel review for V1 V2 V4 color directions`.
+- Edit `index.src.html`; `index.html` is generated. Rebuild after every source change before
+  claiming anything is done.
+- When a fact here and in `CLAUDE.md` disagree, assume this file is the one that drifted, and
+  say so rather than picking one silently.
+- Keep the three landing-page variants structurally identical. If a fix isn't a colour token, a
+  title, or a variant-specific number in a comment, apply it to all three, not just one.
+- Prefer a real, working substitute over a stalled task. If a media asset can't clear the
+  consent gate, put in a real, visibly-labeled placeholder rather than leaving the question
+  open and the defect shipped.

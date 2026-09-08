@@ -12,9 +12,9 @@ const assets = {
 };
 
 const sources = [
-  ["v1-ochre", "prototypes/ink-v1-ochre/index.src.html"],
-  ["v2-sanctuary", "prototypes/ink-v2-sanctuary/index.src.html"],
-  ["v4-blue", "prototypes/ink-v4-blue/index.src.html"],
+  ["v1-ochre", "prototypes/film-v1-ochre/index.src.html"],
+  ["v2-sanctuary", "prototypes/film-v2-sanctuary/index.src.html"],
+  ["v4-blue", "prototypes/film-v4-blue/index.src.html"],
 ];
 
 function requiredMatch(text, pattern, label, sourcePath) {

@@ -14,8 +14,12 @@ export function VariantDocument({ slug }: VariantDocumentProps) {
   const source = variantDocuments[slug];
 
   useEffect(() => {
-    const execute = new Function(source.script);
-    execute();
+    try {
+      const execute = new Function(source.script);
+      execute();
+    } catch (err) {
+      console.error("Variant script failed to run:", err);
+    }
   }, [source.script, documentId]);
 
   return (
