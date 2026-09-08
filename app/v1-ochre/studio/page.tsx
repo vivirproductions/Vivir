@@ -6,7 +6,7 @@ const variant = variantBySlug["v1-ochre"];
 
 export const metadata: Metadata = {
   title: "Vivír · Our Testimony",
-  description: `Vivír ${variant.name} about page.`,
+  description: `Vivír ${variant.name} testimony placeholders.`,
 };
 
 export default function V1OchreStudioPage() {

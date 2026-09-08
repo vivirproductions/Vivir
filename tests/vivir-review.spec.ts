@@ -117,6 +117,23 @@ for (const route of approvedRoutes) {
     await expect(page.locator(".studio")).toBeVisible();
     await expect(page.locator("nav a[data-page='studio']")).toHaveText("Our Testimony");
     await expect(page.locator(".studio__h")).toHaveText("Our Testimony");
+    await expect(page.locator(".draft")).toHaveText(
+      "[DRAFT - no individual testimony has been cleared for publication]",
+    );
+    await expect(page.locator(".testimony__item")).toHaveCount(3);
+    await expect(page.locator(".testimony__slot")).toHaveText([
+      "[Testimony placeholder 01]",
+      "[Testimony placeholder 02]",
+      "[Testimony placeholder 03]",
+    ]);
+    await expect(page.locator(".testimony__placeholder")).toHaveText([
+      "[Name, written story, and publication consent - to be confirmed]",
+      "[Name, written story, and publication consent - to be confirmed]",
+      "[Name, written story, and publication consent - to be confirmed]",
+    ]);
+    await expect(page.locator(".testimony__notice")).toHaveText(
+      "No person, quote, church, or identifying detail is published in this preview.",
+    );
     await expect(page.locator(".hero, .index, .films, #lightbox")).toHaveCount(0);
     await expect(page.locator("nav a[data-page='studio']")).toHaveAttribute("aria-current", "page");
     await expect(page.locator("form#inquiry")).toBeVisible();
@@ -304,7 +321,10 @@ test("contact form offers direct email when the service is unavailable", async (
     route.fulfill({
       status: 503,
       contentType: "application/json",
-      body: JSON.stringify({ ok: false, error: "The inquiry mailbox is not configured yet." }),
+      body: JSON.stringify({
+        ok: false,
+        error: "The inquiry mailbox is not configured yet. Please email vivir.production@gmail.com directly.",
+      }),
     }),
   );
   await page.goto("/v1-ochre/studio#contact");
@@ -313,6 +333,10 @@ test("contact form offers direct email when the service is unavailable", async (
   await form.getByLabel("Email *").fill("sender@example.com");
   await form.getByLabel("Message *").fill("This value must remain after a service failure.");
   await form.getByRole("button", { name: "Send inquiry" }).click();
+  await expect(page.locator("#inquiry-status")).toHaveText(
+    "The inquiry form is being configured. Please email us directly. vivir.production@gmail.com",
+  );
+  await expect(page.locator("#inquiry-status a[href='mailto:vivir.production@gmail.com']")).toHaveCount(1);
   await expect(page.locator("#inquiry-status a[href='mailto:vivir.production@gmail.com']")).toBeVisible();
   await expect(form.getByLabel("Message *")).toHaveValue("This value must remain after a service failure.");
 });

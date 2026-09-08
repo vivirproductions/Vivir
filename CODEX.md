@@ -28,9 +28,10 @@ Hanz has not confirmed which framing leads. Treat all copy as swappable until he
   `prototypes/ink-v*` folders via `src/variants/registry.ts` and
   `scripts/extract-variants.mjs`. That task is done and already committed
   (`Prepare Vercel review for V1 V2 V4 color directions`).
-- **Do not run any git command that writes** - no `add`, `commit`, `push`, `reset`. Read-only
-  git (`status`, `log`, `diff`, `check-ignore`) is fine. Hanz has said explicitly, more than
-  once, not to push until he has reviewed locally. Version control is the orchestrator's job.
+- **Git writes are permitted when Hanz explicitly asks to ship reviewed work to `main`.** Before
+  `add`, `commit`, or `push`, inspect the diff, run the relevant build and tests, and report what
+  is being shipped. Use normal commits and `git push origin main` only. Never force-push, reset,
+  amend published history, or use broad staging commands that can include unrelated files.
 - V3 Oxblood is not "excluded from the selector" - it is **fully deleted**, everywhere:
   `prototypes/film-v3-oxblood`, `prototypes/ink-v3-oxblood`, `prototypes/v6-oxblood`, its
   README section, its exported HTML. If you find a reference to it, that reference is stale;

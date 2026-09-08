@@ -240,6 +240,28 @@ nav a[aria-current="page"]{opacity:1;border-bottom-color:var(--accent)}
 .snd[aria-pressed="true"] .snd__dot{background:var(--accent)}
 .hero__actions .snd{margin-left:0}
 
+/* Mobile hero is a single reading order: navigation, film, message, actions. The source
+   label repeats information that the film and heading already carry, so it is deliberately
+   absent here. The four real navigation links remain available in one compact line. */
+@media (max-width:680px){
+  .bar{min-height:64px;padding-block:13px;gap:10px}
+  .bar .brand{gap:8px}
+  .bar img{height:24px}
+  .brand__name{font-size:11px;letter-spacing:.28em;margin-right:-.28em}
+  nav{min-width:0;flex:1;flex-wrap:nowrap;justify-content:flex-end;gap:clamp(8px,2.4vw,12px);overflow:hidden}
+  nav a{flex:0 0 auto;padding-block:6px;font-size:9px;letter-spacing:.1em}
+
+  .hero{aspect-ratio:auto;min-height:clamp(410px,74svh,510px);max-height:none}
+  .hero__ui{display:grid;grid-template-columns:1fr;align-items:end;gap:18px;padding-bottom:24px}
+  .hero__copy{gap:0;max-width:18rem}
+  .hero__title{display:none}
+  .hero__line{max-width:20ch;font-size:clamp(23px,6.4vw,29px);line-height:1.05}
+  .hero__actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;margin:0;gap:8px}
+  .hero__contact,.snd{width:100%;min-height:46px;padding-inline:10px}
+  .snd{justify-content:center;gap:7px}
+  .snd__t{font-size:10px;letter-spacing:.15em}
+}
+
 /* ══ THE INDEX. Eight rows, hairline separated. The heart of the page. ══════════════ */
 .index{position:relative;background:var(--surface);padding-block:clamp(38px,6vw,72px);
   scroll-margin-top:92px}
@@ -393,17 +415,50 @@ a.film__still:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
 .lightbox__close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* ══ STUDIO VIEW. Minimal by instruction: a lede and three short paragraphs. ════════ */
-.studio{padding-block:clamp(46px,8vw,110px)}
-.studio__h{margin:0 0 clamp(16px,2vw,24px);font-weight:200;font-size:clamp(30px,5vw,64px);
-  line-height:1;letter-spacing:-.022em}
-.studio__lede{margin:0 0 clamp(20px,2.6vw,32px);font-size:clamp(17px,1.6vw,22px);
-  line-height:1.45;max-width:30ch}
-.studio p+p{margin-top:0}
-.studio__body{max-width:52ch}
-.studio__body p{margin:0 0 1em;color:var(--bone);font-size:15.5px;line-height:1.65}
-.studio__body p:last-child{margin-bottom:0}
-.studio__contact{display:inline-flex;align-items:center;justify-content:center;margin-top:clamp(10px,1.6vw,18px);
+/* ══ TESTIMONY VIEW. An editorial page, intentionally empty of real stories. ════════ */
+.studio{position:relative;padding-block:clamp(40px,7vw,104px) clamp(54px,9vw,132px)}
+.testimony__rail{display:none}
+.studio__opening{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.62fr);gap:32px clamp(36px,8vw,140px);
+  padding-bottom:clamp(34px,5vw,68px);border-bottom:1px solid var(--rule)}
+.studio__eyebrow{margin:0 0 16px;color:var(--accent);font-weight:300;font-size:11px;line-height:1;
+  letter-spacing:.22em;text-transform:uppercase}
+.studio__h{max-width:10ch;margin:0;font-weight:200;font-size:clamp(48px,8.4vw,116px);line-height:.9;
+  letter-spacing:-.055em;text-wrap:balance}
+.studio__intro{align-self:end;max-width:34rem}
+.studio__lede{margin:0 0 20px;font-weight:300;font-size:clamp(18px,1.75vw,25px);line-height:1.34;letter-spacing:-.018em}
+.studio__body{max-width:960px;margin-top:clamp(40px,7vw,104px);margin-left:auto}
+.testimony__chapter{display:grid;grid-template-columns:minmax(108px,.23fr) minmax(0,1fr);gap:24px clamp(26px,5vw,76px);
+  padding-block:clamp(30px,4.6vw,58px);border-top:1px solid var(--rule)}
+.testimony__chapter:first-child{padding-top:0;border-top:0}
+.testimony__marker{margin:0;color:var(--grey);font-weight:300;font-size:10px;line-height:1.45;
+  letter-spacing:.18em;text-transform:uppercase}
+.testimony__marker span{display:block;margin-bottom:8px;color:var(--accent);font-size:clamp(20px,2.2vw,32px);line-height:1;
+  letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.testimony__copy{max-width:42rem}
+.testimony__copy p{margin:0 0 1em;color:var(--bone);font-size:clamp(16px,1.25vw,18px);line-height:1.62}
+.testimony__copy p:last-child{margin-bottom:0}
+.testimony__copy .testimony__prompt{margin-top:clamp(24px,3vw,34px);padding-top:14px;border-top:1px solid var(--rule);
+  color:var(--grey);font-size:13px;line-height:1.55}
+.testimony__list{margin:clamp(28px,4vw,44px) 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+.testimony__item{display:grid;grid-template-columns:minmax(124px,.34fr) minmax(0,1fr);gap:16px 28px;
+  padding:clamp(18px,2.2vw,24px) 0;border-bottom:1px solid var(--rule)}
+.testimony__slot{margin:0;color:var(--accent);font-weight:300;font-size:10px;line-height:1.45;
+  letter-spacing:.16em;text-transform:uppercase}
+.testimony__placeholder{margin:0;color:var(--bone);font-size:15.5px;line-height:1.6}
+.testimony__notice{margin:clamp(24px,3vw,34px) 0 0;max-width:45rem;color:var(--grey);font-size:13px;line-height:1.6}
+@media (min-width:1100px){
+  .testimony__rail{display:block;position:absolute;inset:clamp(40px,7vw,104px) auto 0 calc(var(--pad) * .6);width:1px;background:var(--rule)}
+  .testimony__rail span{position:sticky;top:34vh;display:block;width:max-content;transform:translateX(-50%) rotate(180deg);
+    color:var(--grey);font-weight:300;font-size:10px;line-height:1;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl}
+}
+@media (max-width:680px){
+  .studio__opening,.testimony__chapter{grid-template-columns:1fr;gap:18px}
+  .studio__h{max-width:8ch}
+  .testimony__marker{display:flex;align-items:baseline;gap:10px}
+  .testimony__marker span{margin:0}
+  .testimony__item{grid-template-columns:1fr;gap:8px}
+}
+.studio__contact{display:inline-flex;align-items:center;justify-content:center;margin-top:clamp(24px,3vw,32px);
   min-height:38px;border:1px solid var(--accent);padding:0 14px;color:var(--bone);text-decoration:none;
   font-weight:300;font-size:11px;line-height:1;letter-spacing:.16em;text-transform:uppercase;
   transition:background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1)}
@@ -446,7 +501,10 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
 .inquiry__send:hover{background:var(--bone);border-color:var(--bone)}
 .inquiry__send:active{transform:translateY(1px)}
 .inquiry__send:disabled{cursor:wait;opacity:.65}
-.inquiry__status{min-height:1.5em;margin:0;color:var(--grey);font-size:12px;line-height:1.5}
+.inquiry__status{display:grid;justify-items:center;gap:5px;min-height:1.5em;width:min(100%,34rem);margin:0 auto;
+  color:var(--grey);font-size:12px;line-height:1.5;text-align:center}
+.inquiry__status a{color:var(--bone);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px}
+.inquiry__status a:hover,.inquiry__status a:focus-visible{color:var(--accent)}
 .inquiry__status[data-state="success"]{color:var(--bone)}
 .inquiry__status[data-state="error"]{color:var(--accent)}
 .foot__legal{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;gap:12px 30px;
@@ -729,15 +787,54 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
 <!-- split:studio:start -->
 <main id="main" data-page="studio">
   <section class="studio wrap">
-    <h2 class="studio__h">Our Testimony</h2>
-    <p class="studio__lede">A production and media studio in [Location - to be confirmed].</p>
-    <p class="draft">[DRAFT - replace with Vivír's real story]</p>
+    <aside class="testimony__rail" aria-hidden="true"><span>Our Testimony</span></aside>
+    <header class="studio__opening">
+      <div>
+        <p class="studio__eyebrow">A place held open</p>
+        <h2 class="studio__h">Our Testimony</h2>
+      </div>
+      <div class="studio__intro">
+        <p class="studio__lede">[A testimony page introduction will be placed here once it is confirmed.]</p>
+        <p class="draft">[DRAFT - no individual testimony has been cleared for publication]</p>
+      </div>
+    </header>
     <div class="studio__body">
-      <p>Same day edits, pageants, corporate events, pre-wedding and pre-debut work, tourism and advocacy films.</p>
-      <p>The index is the work. Titles describe the frame, not the client.</p>
-      <p>Write to us and we will say whether we are the right people for it.</p>
+      <section class="testimony__chapter" aria-labelledby="testimony-first-words">
+        <p class="testimony__marker"><span>01</span>First words</p>
+        <div class="testimony__copy">
+          <p id="testimony-first-words">Nothing has been published here yet. This page is a considered placeholder for stories that may be shared only after the person, their words, and permission for this exact use are confirmed.</p>
+          <p class="testimony__prompt">[Opening context, subject, and approved publication terms - to be confirmed for each story]</p>
+        </div>
+      </section>
+      <section class="testimony__chapter" aria-labelledby="testimony-records">
+        <p class="testimony__marker"><span>02</span>The records</p>
+        <div class="testimony__copy">
+          <p id="testimony-records">Each story will have room to be read at its own pace. Until then, the records below remain visibly empty rather than being filled with invented names, quotes, or imagery.</p>
+          <ul class="testimony__list" aria-label="Testimony placeholders">
+            <li class="testimony__item">
+              <p class="testimony__slot">[Testimony placeholder 01]</p>
+              <p class="testimony__placeholder">[Name, written story, and publication consent - to be confirmed]</p>
+            </li>
+            <li class="testimony__item">
+              <p class="testimony__slot">[Testimony placeholder 02]</p>
+              <p class="testimony__placeholder">[Name, written story, and publication consent - to be confirmed]</p>
+            </li>
+            <li class="testimony__item">
+              <p class="testimony__slot">[Testimony placeholder 03]</p>
+              <p class="testimony__placeholder">[Name, written story, and publication consent - to be confirmed]</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section class="testimony__chapter" aria-labelledby="testimony-next">
+        <p class="testimony__marker"><span>03</span>When ready</p>
+        <div class="testimony__copy">
+          <p id="testimony-next">When a story is ready for this page, its final copy, image, and consent note will appear together. Until then, leaving the space open is more honest than making one up.</p>
+          <p class="testimony__notice">No person, quote, church, or identifying detail is published in this preview.</p>
+          <a class="studio__contact" href="#contact">Start a conversation</a>
+        </div>
+      </section>
     </div>
-    <a class="studio__contact" href="#contact">Contact</a>
   </section>
 </main><!-- split:studio:end -->
 
@@ -1210,10 +1307,13 @@ function applyFilmFilter(cat){
     if (error) error.textContent = message;
   }
   function setStatus(message, state, withEmail){
-    status.textContent = message;
+    status.replaceChildren();
     status.setAttribute('data-state', state || '');
+    var text = document.createElement('span');
+    text.textContent = message;
+    status.appendChild(text);
     if (withEmail) {
-      status.appendChild(document.createTextNode(' '));
+      text.appendChild(document.createTextNode(' '));
       var link = document.createElement('a');
       link.href = 'mailto:vivir.production@gmail.com';
       link.textContent = 'vivir.production@gmail.com';
@@ -1251,7 +1351,7 @@ function applyFilmFilter(cat){
       headers: {'Accept':'application/json'}
     }).then(function(response){
       return response.json().catch(function(){ return {}; }).then(function(body){
-        return {ok:response.ok && body.ok, body:body};
+        return {ok:response.ok && body.ok, status:response.status, body:body};
       });
     }).then(function(result){
       if (result.ok) {
@@ -1269,10 +1369,13 @@ function applyFilmFilter(cat){
         if (firstInvalid) firstInvalid.focus();
         setStatus(body.error || 'Please check the highlighted fields.', 'error');
       } else {
-        setStatus(body.error || 'We could not send that just now. Email us directly at', 'error', true);
+        var fallback = result.status === 503
+          ? 'The inquiry form is being configured. Please email us directly.'
+          : 'We could not send that just now. Please email us directly.';
+        setStatus(fallback, 'error', true);
       }
     }).catch(function(){
-      setStatus('We could not connect just now. Email us directly at', 'error', true);
+      setStatus('We could not connect just now. Please email us directly.', 'error', true);
     }).then(function(){
       sending = false;
       button.disabled = false;
