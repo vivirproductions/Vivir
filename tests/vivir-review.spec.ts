@@ -52,6 +52,7 @@ const publicPages = [
 
 test("homepage links exactly the three approved palettes", async ({ page }) => {
   await page.goto("/");
+  await expect(page.locator("link[rel='icon'][href='/brand/mark-white.png']")).toHaveCount(1);
   const cards = page.locator(".review-card");
   await expect(cards).toHaveCount(3);
   await expect(cards.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).resolves.toEqual([

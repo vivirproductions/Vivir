@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Vivír",
   description: "Review selector for the approved Vivír color directions.",
+  icons: {
+    icon: "/brand/mark-white.png",
+    shortcut: "/brand/mark-white.png",
+  },
   robots: {
     index: false,
     follow: false,
