@@ -343,13 +343,18 @@ nav a[aria-current="page"]{opacity:1;border-bottom-color:var(--accent)}
 }
 
 @media (max-width:899px){
-  /* NO HOVER ON TOUCH, so the backdrop is dropped entirely and every row carries its own
-     still inline instead. Eight rows of text and no pictures is not an option. */
+  /* Touch has no durable hover state, so each cleared row carries a quiet still of its own.
+     The small thumbnail remains the legible preview; this is only the same atmospheric depth
+     desktop gets from .stage. The consent-pending row has no --row-still and stays image-free. */
   .stage{display:none}
-  .row{grid-template-columns:clamp(88px,26vw,150px) minmax(0,1fr);
+  .row{position:relative;isolation:isolate;overflow:hidden;grid-template-columns:clamp(88px,26vw,150px) minmax(0,1fr);
     grid-template-areas:"thumb no" "thumb name" "thumb kind";
     align-items:start;gap:4px clamp(14px,4vw,22px);
     padding-block:clamp(16px,4vw,24px);min-height:0}
+  .row::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:linear-gradient(to right,color-mix(in srgb,var(--surface) 55%,transparent) 0%,
+      color-mix(in srgb,var(--surface) 90%,transparent) 34%,var(--surface) 52%),
+      var(--row-still) center/cover no-repeat}
   .row__thumb{display:block;align-self:center}
   .row__kind{justify-self:start;text-align:left;margin-top:8px;white-space:normal}
   .row__name{margin-block:2px}
@@ -588,7 +593,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
       </div>
       <ol class="rows">
 
-        <li><a class="row" href="films.html#film-dinagyang" data-still="/media/work/dinagyang.jpg">
+        <li><a class="row" href="films.html#film-dinagyang" data-still="/media/work/dinagyang.jpg" style="--row-still:url('/media/work/dinagyang.jpg')">
           <span class="row__no">01</span>
           <span class="row__thumb"><img src="/media/work/dinagyang.jpg" width="1280" height="534"
             alt="Aerial frame: a street procession beside a harbour, rows of dancers in orange spread across the road, crowds packed behind the barriers."></span>
@@ -596,7 +601,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
           <span class="row__kind">same day edit</span>
         </a></li>
 
-        <li><a class="row" href="films.html#film-iloilo-city" data-still="/media/work/demoreel.jpg">
+        <li><a class="row" href="films.html#film-iloilo-city" data-still="/media/work/demoreel.jpg" style="--row-still:url('/media/work/demoreel.jpg')">
           <span class="row__no">02</span>
           <span class="row__thumb"><img src="/media/work/demoreel.jpg" width="1280" height="534"
             alt="A green jeepney fills the foreground, its rail and roof rack sharp; beyond it a figure stands in the sunlit street."></span>
@@ -611,7 +616,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
           <span class="row__kind">pageant</span>
         </a></li>
 
-        <li><a class="row" href="films.html#film-engineering-summit" data-still="/media/work/summit.jpg">
+        <li><a class="row" href="films.html#film-engineering-summit" data-still="/media/work/summit.jpg" style="--row-still:url('/media/work/summit.jpg')">
           <span class="row__no">04</span>
           <span class="row__thumb"><img src="/media/work/summit.jpg" width="1280" height="534"
             alt="A dancer in layered woven costume bends low in front of a large projected globe on a conference stage."></span>
@@ -619,7 +624,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
           <span class="row__kind">corporate</span>
         </a></li>
 
-        <li><a class="row" href="films.html#film-city-celebration" data-still="/media/work/celebration.jpg">
+        <li><a class="row" href="films.html#film-city-celebration" data-still="/media/work/celebration.jpg" style="--row-still:url('/media/work/celebration.jpg')">
           <span class="row__no">05</span>
           <span class="row__thumb"><img src="/media/work/celebration.jpg" width="1280" height="534"
             alt="An aerial view of a riverside promenade lined with white event tents, a dense crowd along the water's edge."></span>
@@ -627,7 +632,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
           <span class="row__kind">same day edit</span>
         </a></li>
 
-        <li><a class="row" href="films.html#film-advocacy" data-still="/media/work/advocacy.jpg">
+        <li><a class="row" href="films.html#film-advocacy" data-still="/media/work/advocacy.jpg" style="--row-still:url('/media/work/advocacy.jpg')">
           <span class="row__no">06</span>
           <span class="row__thumb"><img src="/media/work/advocacy.jpg" width="1280" height="534"
             alt="Aerial frame: rooftops and market awnings pressed against a green field, a road running down to the water at the edge of town."></span>
@@ -635,7 +640,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
           <span class="row__kind">advocacy film</span>
         </a></li>
 
-        <li><a class="row" href="films.html#film-talents-night" data-still="/media/work/talents.jpg">
+        <li><a class="row" href="films.html#film-talents-night" data-still="/media/work/talents.jpg" style="--row-still:url('/media/work/talents.jpg')">
           <span class="row__no">07</span>
           <span class="row__thumb"><img src="/media/work/talents.jpg" width="1280" height="534"
             alt="Two figures in formal wear meet mid stage under low light, one carrying a bag, sparks projected on the screen behind them."></span>
@@ -643,7 +648,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
           <span class="row__kind">highlights</span>
         </a></li>
 
-        <li><a class="row" href="films.html#film-teaser" data-still="/media/work/teaser.jpg">
+        <li><a class="row" href="films.html#film-teaser" data-still="/media/work/teaser.jpg" style="--row-still:url('/media/work/teaser.jpg')">
           <span class="row__no">08</span>
           <span class="row__thumb"><img src="/media/work/teaser.jpg" width="1280" height="534"
             alt="Two people stand in tall grass under a bright sky, one holding an acoustic guitar."></span>

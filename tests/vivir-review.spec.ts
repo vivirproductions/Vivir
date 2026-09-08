@@ -194,6 +194,25 @@ test("desktop Work index keeps a restrained editorial scale", async ({ page }, t
   expect(metrics.rowHeight).toBeLessThanOrEqual(72);
 });
 
+test("mobile Work rows retain a faint background still without using hover", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "Mobile treatment only");
+  await page.goto("/v1-ochre#work");
+  const rows = await page.locator(".rows .row").evaluateAll((items) =>
+    items.map((item) => ({
+      hasStill: item.hasAttribute("data-still"),
+      background: getComputedStyle(item, "::before").backgroundImage,
+      opacity: getComputedStyle(item, "::before").opacity,
+    })),
+  );
+  const cleared = rows.filter((row) => row.hasStill);
+  const pending = rows.filter((row) => !row.hasStill);
+
+  expect(cleared).toHaveLength(7);
+  expect(cleared.every((row) => row.background !== "none")).toBe(true);
+  expect(pending).toHaveLength(1);
+  expect(pending[0].background).toBe("none");
+});
+
 test("Film archive filters hide unmatched tiles and All restores the archive", async ({ page }) => {
   await page.goto("/v1-ochre/films");
   const films = page.locator(".films .film");
