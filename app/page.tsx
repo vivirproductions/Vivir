@@ -10,14 +10,14 @@ export default function Home() {
         <Image
           className="review-home__brand"
           src="/brand/wordmark-white.png"
-          alt="Vivir"
+          alt="Vivír"
           width={1400}
           height={445}
           priority
         />
         <p className="review-home__kicker">Color direction review</p>
-        <h1>Three approved Vivir directions</h1>
-        <div className="review-home__grid" aria-label="Approved color versions">
+        <h1>Three approved Vivír directions</h1>
+        <div className="review-home__grid" aria-label="Approved color palettes">
           {variants.map((variant) => (
             <Link
               className="review-card"
@@ -26,7 +26,7 @@ export default function Home() {
               style={{ "--accent": variant.accent } as CSSProperties}
             >
               <span className="review-card__top">
-                <span className="review-card__version">{variant.version}</span>
+                <span className="review-card__version">Palette</span>
                 <span className="review-card__name">{variant.name}</span>
               </span>
               <span className="review-card__palette" aria-label={`${variant.name} palette`}>

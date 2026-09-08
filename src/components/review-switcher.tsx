@@ -10,7 +10,7 @@ export function ReviewSwitcher({ current }: ReviewSwitcherProps) {
   return (
     <aside
       className="vivir-review-switcher"
-      aria-label="Vivir review versions"
+      aria-label="Vivír color palettes"
       style={
         {
           "--variant-accent": variants.find((variant) => variant.slug === current)?.accent,
@@ -24,7 +24,7 @@ export function ReviewSwitcher({ current }: ReviewSwitcherProps) {
           href={`/${variant.slug}`}
           aria-current={variant.slug === current ? "page" : undefined}
         >
-          {variant.version}
+          {variant.name}
         </Link>
       ))}
     </aside>

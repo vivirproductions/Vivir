@@ -1,4 +1,5 @@
 export type VariantSlug = "v1-ochre" | "v2-sanctuary" | "v4-blue";
+export type VariantPage = "landing" | "films" | "studio";
 
 export type Variant = {
   slug: VariantSlug;
@@ -15,8 +16,8 @@ export const variants = [
     slug: "v1-ochre",
     version: "V1",
     name: "Ochre",
-    title: "Vivir - Ink & Ochre",
-    description: "Vivir V1 Ochre - film index landing page.",
+    title: "Vivír - Ink & Ochre",
+    description: "Vivír Ochre palette - film index landing page.",
     accent: "#C8802A",
     palette: ["#0B0B0C", "#F4F1EA", "#C8802A", "#8A857C", "#1C1B19"],
   },
@@ -24,8 +25,8 @@ export const variants = [
     slug: "v2-sanctuary",
     version: "V2",
     name: "Sanctuary",
-    title: "Vivir - Ink & Sanctuary",
-    description: "Vivir V2 Sanctuary - film index landing page.",
+    title: "Vivír - Ink & Sanctuary",
+    description: "Vivír Sanctuary palette - film index landing page.",
     accent: "#A8894F",
     palette: ["#0B0B0C", "#F4F1EA", "#A8894F", "#8A857C", "#0C1F17"],
   },
@@ -33,8 +34,8 @@ export const variants = [
     slug: "v4-blue",
     version: "V4",
     name: "Blue",
-    title: "Vivir - Ink & Blue",
-    description: "Vivir V4 Blue - film index landing page.",
+    title: "Vivír - Ink & Blue",
+    description: "Vivír Blue palette - film index landing page.",
     accent: "#0096C7",
     palette: ["#0B0B0C", "#F4F1EA", "#0096C7", "#8A857C", "#0E1D23"],
   },

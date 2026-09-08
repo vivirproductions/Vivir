@@ -3,10 +3,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Vivir Color Review",
-    template: "%s | Vivir Color Review",
+    default: "Vivír Color Review",
+    template: "%s | Vivír Color Review",
   },
-  description: "Review selector for the approved Vivir color directions.",
+  description: "Review selector for the approved Vivír color directions.",
   robots: {
     index: false,
     follow: false,

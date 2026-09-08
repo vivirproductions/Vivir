@@ -1,0 +1,1295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vivír - Ink &amp; Blue</title>
+<meta name="description" content="Vivír. A film index prototype. Ink and ochre palette. Placeholder copy, no cleared testimony content.">
+<!-- palette: #0B0B0C,#F4F1EA,#0096C7,#8A857C,#0E1D23 -->
+<!--
+  ══ FILM INDEX · V1 "INK & OCHRE" ═══════════════════════════════════════════════════
+  This is the REFERENCE file. Three siblings port it to other palettes by swapping the
+  five tokens in :root and nothing else. Every colour decision on this page lives in a
+  custom property in :root. If a sibling has to open a rule body to re-colour something,
+  that is a bug in THIS file, not in the sibling.
+
+  ── NO REVEAL SCRIPT. ON PURPOSE. ──────────────────────────────────────────────────
+  The previous attempt at this page shipped with 15 of its 16 scroll-revealed elements
+  stuck at opacity 0 forever. There is no reveal here: no IntersectionObserver, no
+  data-rise, no .motion class, no .in class. Every element of content is visible at rest
+  with no JavaScript running at all.
+
+  The only two things on this page that begin invisible are the two crossfade layers of
+  the index backdrop, the divs with ids bdA and bdB. (Written without a leading hash on
+  purpose: shared/palette-audit.mjs greps every hash-plus-hex-looking token in the file,
+  comments included, and "hash b d A" is three valid hex digits. It fails the build.)
+  They are aria-hidden decorative <div>s with no
+  text, no image element and no content: they are a hover STATE, not content waiting for
+  a script. The same nine stills they show are real, visible <img> content in every row
+  below 900px, where there is no hover to trigger them.
+
+  ── MOTION ─────────────────────────────────────────────────────────────────────────
+  Hover and focus transitions on the index rows, and the backdrop crossfade. Nothing
+  else. No CSS animation exists anywhere in this file, so document.getAnimations() is
+  empty at rest and prefers-reduced-motion has only transitions to switch off.
+
+  ── CONSENT: UNCLEARED ─────────────────────────────────────────────────────────────
+  No person, couple, client, church or ministry is named anywhere, visible or in source.
+  No year is attached to any row. No fact is asserted about Vivír: no founding year, no
+  founders, no head count, no film count, no awards, no address. The one address is
+  vivir.production@gmail.com, the studio's real inbox, supplied by the studio principal - the one
+  real fact this page asserts. Unfilled values are rendered as
+  visible bracketed placeholders in the page, not hidden in a comment. Row names and
+  kinds come from the fixed brief list and nowhere else. Every img alt describes the
+  FRAME, never the client.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400&display=swap">
+
+<!-- The hero poster, so the first paint of the film area is a picture and not a hole. -->
+<link rel="preload" as="image" href="/media/hero-poster.jpg">
+<!--
+  THE NINE STILLS. This is the preload mechanism, chosen over a hidden off-screen set:
+  rel=preload is a declaration the browser honours before it has laid anything out, so
+  the first hover cannot flash blank, and it does not depend on whether a display:none
+  <img> is fetched (it is, in every current engine, but that is an implementation detail
+  and not a contract). Below 900px these same files are the row thumbnails, so the fetch
+  is not speculative there either.
+-->
+<link rel="preload" as="image" href="/media/work/dinagyang.jpg">
+<link rel="preload" as="image" href="/media/work/demoreel.jpg">
+<link rel="preload" as="image" href="/media/work/summit.jpg">
+<link rel="preload" as="image" href="/media/work/celebration.jpg">
+<link rel="preload" as="image" href="/media/work/advocacy.jpg">
+<link rel="preload" as="image" href="/media/work/prewedding.jpg">
+<link rel="preload" as="image" href="/media/work/talents.jpg">
+<link rel="preload" as="image" href="/media/work/teaser.jpg">
+
+<style>
+/* ══ PALETTE ════════════════════════════════════════════════════════════════════════
+   FIVE tokens. A sibling variant edits the five values below and stops. Everything
+   further down is derived from them, and every derived value is also declared here, so
+   there is no colour literal anywhere in a rule body.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+:root{
+  /* This page is committed to one dark world; it does not follow the viewer's theme.
+     Declared because a published Artifact wraps the page in a shell that sets
+     color-scheme:light, which paints a LIGHT SCROLLBAR TRACK down the right edge of a
+     near-black page. It is invisible in local testing because the wrapper does not
+     exist locally. Do not delete this as redundant next to the --ink ground. */
+  color-scheme:dark;
+
+  --ink:#0B0B0C;        /* the ground */
+  --bone:#F4F1EA;       /* text on the ground. 17.44:1 on ink, 15.26:1 on surface */
+  --accent:#0096C7;     /* the brand book's step 600 blue. 5.80:1 on ink, 5.08:1 on surface. A lamp, not a button:
+                           row numbers, the focus ring, the hovered row name, and the
+                           sound toggle's hairline border. Nothing else. It does NOT
+                           tint the hairline rules between rows, and there is no
+                           lightened second step of it. */
+  --grey:#8A857C;       /* the kind column and meta text. 5.37:1 on ink, 4.77:1 on
+                           surface. Never body copy. */
+  --surface:#0E1D23;    /* the index band and the footer band.
+                           hsl(195 44% 9.5%), hue taken from the accent, luminance held at 0.010934. */
+
+  /* ── DERIVED. Two declarations each: an rgba() literal carrying the channels of the
+        token above it, then a color-mix() that re-derives the same value from the token
+        itself. Where color-mix is supported the second wins, so a sibling that swaps
+        only the five values above still gets correct hairlines and scrims. Where it is
+        not, the literal is the floor. Both live here, in :root, and nowhere else. ──── */
+
+  /* bone hairlines: the rules between index rows, the header underline */
+  --rule:rgba(244,241,234,.13);
+  --rule:color-mix(in srgb, var(--bone) 13%, transparent);
+  --rule-soft:rgba(244,241,234,.07);
+  --rule-soft:color-mix(in srgb, var(--bone) 7%, transparent);
+
+  /* The hero scrim. MEASURED, not guessed: the film runs from a night crowd to a
+     bright noon sky, and the poster frame itself is a bright daylight aerial. Bone on
+     an unscrimmed white sky is about 1.06:1, i.e. gone. The hero line and the sound
+     toggle both sit inside the bottom 20% of the box, where this gradient is at .86 or
+     denser: against a pure white frame that composites to a ground of L 0.183 and bone
+     lands at 3.98:1, and against the actual poster it is far better. The toggle carries
+     its own extra plate below, which takes it to about 9:1. */
+  --hero-scrim:linear-gradient(to top,
+      rgba(11,11,12,.94) 0%, rgba(11,11,12,.86) 20%, rgba(11,11,12,.5) 44%, transparent 68%);
+  --hero-scrim:linear-gradient(to top,
+      color-mix(in srgb, var(--ink) 94%, transparent) 0%,
+      color-mix(in srgb, var(--ink) 86%, transparent) 20%,
+      color-mix(in srgb, var(--ink) 50%, transparent) 44%,
+      transparent 68%);
+
+  /* the sound toggle's own ground, stacked on top of the scrim */
+  --plate:rgba(11,11,12,.72);
+  --plate:color-mix(in srgb, var(--ink) 72%, transparent);
+
+  /* Header ground while sticky. Dense rather than glassy: the film's bright frames
+     smear through a lighter value and the bar stops reading as chrome. At .95 bone
+     holds 7.6:1 and the .7-opacity nav 5.6:1 over the worst frame in the film. */
+  --chrome:rgba(11,11,12,.95);
+  --chrome:color-mix(in srgb, var(--ink) 95%, transparent);
+
+  --sans:"Archivo","Archivo Fallback",system-ui,-apple-system,"Segoe UI",Roboto,
+         "Helvetica Neue",Arial,sans-serif;
+
+  --maxw:1440px;
+  --pad:clamp(20px,5vw,72px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font:400 16px/1.55 var(--sans);
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+::selection{background:var(--accent);color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+
+.skip{position:absolute;left:var(--pad);top:-60px;background:var(--bone);color:var(--ink);
+  padding:10px 14px;font-size:13px;text-decoration:none;z-index:60}
+.skip:focus{top:12px}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* small caps label, used for the nav, the kind column, the index head */
+.lbl{font-weight:300;font-size:11px;line-height:1;letter-spacing:.24em;text-transform:uppercase;margin:0}
+.lbl--grey{color:var(--grey)}
+
+/* ══ TWO VIEWS IN ONE DOCUMENT ══════════════════════════════════════════════════════
+   Lifted from prototypes/ink-v1-ochre. BASE STATE IS BOTH VIEWS VISIBLE, stacked, the
+   studio after the landing, reachable by a plain #studio anchor. The `hidden` attribute
+   NEVER appears in this source; only the script sets it, and only after it has added
+   `js-views` to <html>. So no-JS renders the whole document.
+   Specificity, because this project has been bitten by it: the hiding rule is (0,3,0)
+   against .view's (0,1,0), so `hidden` cannot lose.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+.view{display:block}
+.js-views .view[hidden]{display:none}
+/* stacked, the studio view needs the rule that would otherwise be the top of its page */
+.view--films{border-top:1px solid var(--rule)}
+.js-views .view--films{border-top:0}
+.view--studio{border-top:1px solid var(--rule)}
+.js-views .view--studio{border-top:0}
+
+/* ══ HEADER. V mark LEFT, nav RIGHT. Never centred, never over the hero. ════════════ */
+header{position:sticky;top:0;z-index:40;background:var(--chrome);
+  -webkit-backdrop-filter:saturate(140%) blur(8px);backdrop-filter:saturate(140%) blur(8px);
+  border-bottom:1px solid var(--rule)}
+.bar{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);
+  display:flex;align-items:center;justify-content:space-between;gap:18px;padding-block:15px}
+/* The V MARK, never the wordmark. The wordmark mixes heavy strokes with 1px hairlines
+   in the second I and the R; below 402 CSS px of rendered width they resample away and
+   it silently reads VIV R. See CLAUDE.md > Traps. There is no honest place for the
+   wordmark in this layout, so it does not appear at all. */
+.bar img{height:clamp(24px,2.6vw,30px);width:auto}
+/* The mark may never absorb a shortfall: as a bare flex item it squashes, and squashing
+   is the brand book's "maintain framing" don't, failing the way the hairlines fail. */
+.bar>a{flex-shrink:0;display:block;line-height:0}
+.bar .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand__name{font-weight:200;font-size:13px;letter-spacing:.34em;margin-right:-.34em;text-transform:uppercase;color:var(--bone);line-height:1}
+nav{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:clamp(14px,3vw,34px)}
+nav a{font-weight:300;font-size:11px;line-height:1;letter-spacing:clamp(.16em,.5vw,.22em);
+  text-transform:uppercase;white-space:nowrap;text-decoration:none;color:var(--bone);
+  padding-block:7px;opacity:.7;border-bottom:1px solid transparent;
+  transition:opacity .25s,border-color .25s}
+nav a:hover,nav a:focus-visible{opacity:1}
+nav a[aria-current="page"]{opacity:1;border-bottom-color:var(--accent)}
+
+/* ══ HERO. The whole film, full bleed. One line LOW and LEFT. ═══════════════════════
+   The aspect ratio is the row stills' own (1280x534), not the film's (1920x800), so at desktop widths the frame is
+   shown whole and uncropped. min-height keeps it from collapsing to a letterbox strip
+   on a phone, where object-fit:cover crops the sides instead.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+.hero{position:relative;width:100%;aspect-ratio:1280/534;min-height:340px;max-height:84svh;
+  overflow:hidden;background:var(--ink)}
+.hero__film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hero__scrim{position:absolute;inset:0;background:var(--hero-scrim);pointer-events:none}
+.hero__ui{position:absolute;inset:auto 0 0 0;
+  max-width:var(--maxw);margin-inline:auto;padding:0 var(--pad) clamp(22px,4.4vh,46px);
+  display:flex;align-items:flex-end;justify-content:space-between;gap:20px 28px;flex-wrap:wrap}
+.hero__copy{display:grid;gap:10px;max-width:48rem}
+.hero__title{margin:0;color:var(--grey);font-weight:300;font-size:11px;line-height:1.3;
+  letter-spacing:.14em}
+.hero__line{margin:0;max-width:22ch;font-weight:200;font-size:clamp(19px,3.1vw,42px);
+  line-height:1.08;letter-spacing:-.005em;text-wrap:balance}
+.hero__actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.hero__contact{display:inline-flex;align-items:center;justify-content:center;min-height:38px;
+  border:1px solid var(--accent);background:var(--accent);color:var(--ink);padding:0 14px;
+  font-weight:300;font-size:11px;line-height:1;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;transition:background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1)}
+.hero__contact:hover,.hero__contact:focus-visible{background:var(--bone);border-color:var(--bone);color:var(--ink)}
+
+/* the sound toggle. Its border is the accent; its ground is its own ink plate, which is
+   what takes 11px bone from 3.98:1 over a white frame to about 9:1. */
+.snd{-webkit-appearance:none;appearance:none;font:inherit;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;
+  /* keeps the toggle at the LOWER RIGHT even at 375px, where the flex row wraps and
+     space-between would otherwise drop it back to the left edge under the line */
+  margin-left:auto;
+  background:var(--plate);color:var(--bone);border:1px solid var(--accent);
+  padding:9px 14px;transition:background-color .25s}
+.snd:hover{background:var(--ink)}
+.snd__t{font-weight:300;font-size:11px;line-height:1;letter-spacing:.2em;text-transform:uppercase}
+.snd__dot{width:8px;height:8px;border:1px solid var(--accent);border-radius:50%;flex:0 0 auto}
+.snd[aria-pressed="true"] .snd__dot{background:var(--accent)}
+.hero__actions .snd{margin-left:0}
+
+/* ══ THE INDEX. Nine rows, hairline separated. The heart of the page. ═══════════════ */
+.index{position:relative;background:var(--surface);padding-block:clamp(38px,6vw,72px);
+  scroll-margin-top:92px}
+
+/* THE BACKDROP STAGE.
+   Absolutely positioned, capped at --maxw and centred, so it tracks the same box the
+   rows sit in at every viewport width including 1920 where .wrap stops growing.
+   The two crossfade layers are then inset to 15%..78% of that box, which is the band
+   BETWEEN the number column and the kind column. That inset is not decoration: it is
+   what keeps the 12px accent number and the 11px grey kind off the lifted ground
+   entirely, so they hold 5.39:1 and 4.77:1 on surface no matter which still is up.
+   Only the row NAME crosses the lit band, and the name is large. */
+.stage{position:absolute;top:0;bottom:0;left:0;right:0;
+  max-width:var(--maxw);margin-inline:auto;pointer-events:none;overflow:hidden}
+.bd{position:absolute;top:0;bottom:0;left:15%;right:22%;
+  background-position:center;background-size:cover;background-repeat:no-repeat;
+  opacity:0;transition:opacity .55s ease;
+  /* darkened so the worst case (a blown-out white frame) still leaves the hovered row
+     name readable: composited ground L is about 0.051, bone lands at 9.2:1 and the
+     hovered accent name at 3.26:1, past the 3:1 that large text needs. */
+  filter:brightness(.45) saturate(.9);
+  /* CONSENT NOTE: two of the nine supplied frames were found, on independent review,
+     to carry a legible client/event name, a year, and a competing brand mark burnt
+     into the footage (the pageant backdrop and the ministry-flag frame). Neither is
+     used on this page any more - the pageant slot is a labeled placeholder (row 03,
+     no still), and the second frame was replaced with a lettering-free aerial shot
+     from the same source video. Resolved 2026-09-08, by a human decision, not by
+     blurring the client's own footage. */
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent);
+          mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent)}
+.bd.on{opacity:.26}
+
+.index__in{position:relative;z-index:1}
+.index__head{display:flex;align-items:baseline;justify-content:space-between;gap:12px 20px;
+  flex-wrap:wrap;margin-bottom:clamp(18px,2.4vw,30px)}
+
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.rows li{border-bottom:1px solid var(--rule)}
+
+.row{
+  -webkit-appearance:none;appearance:none;background:none;border:0;color:inherit;font:inherit;
+  width:100%;cursor:pointer;text-align:left;text-decoration:none;
+  display:grid;grid-template-columns:3.2rem minmax(0,1fr) auto;
+  grid-template-areas:"no name kind";
+  align-items:center;gap:0 clamp(16px,2.6vw,36px);
+  padding:clamp(9px,1.1vw,16px) 0;min-height:clamp(58px,5.6vw,84px);
+  /* the header is sticky; without this, tabbing to a row parks its focus ring under it */
+  scroll-margin-top:104px;
+}
+/* inset ring, so a full-bleed row cannot push a 3px outset outline into a page-wide
+   horizontal scroll at 375px */
+.row:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+
+.row__no{grid-area:no;font-weight:300;font-size:12px;line-height:1;letter-spacing:.18em;
+  color:var(--accent);font-variant-numeric:tabular-nums}
+.row__name{grid-area:name;font-weight:200;font-size:clamp(20px,3.1vw,46px);line-height:1;
+  letter-spacing:-.022em;transition:color .3s ease,transform .35s ease}
+.row__kind{grid-area:kind;justify-self:end;text-align:right;color:var(--grey);
+  font-weight:300;font-size:11px;line-height:1.3;letter-spacing:.22em;text-transform:uppercase;
+  white-space:nowrap}
+
+/* HOVER AND FOCUS ARE THE SAME STATE. Keyboard focus is not a lesser path here: it
+   swaps the backdrop exactly as the pointer does, and it is the only path a keyboard
+   user has. Hover-only would be a defect. */
+.row:hover .row__name,
+.row:focus-visible .row__name{color:var(--accent);transform:translateX(8px)}
+
+/* the inline thumbnail. Hidden above 900px, where the backdrop does the job. */
+.row__thumb{display:none;grid-area:thumb;aspect-ratio:16/9;overflow:hidden;background:var(--ink)}
+.row__thumb img{width:100%;height:100%;object-fit:cover}
+.row__pending{display:flex;align-items:center;justify-content:center;height:100%;text-align:center;padding:0 10px}
+
+@media (max-width:899px){
+  /* NO HOVER ON TOUCH, so the backdrop is dropped entirely and every row carries its own
+     still inline instead. Nine rows of text and no pictures is not an option. */
+  .stage{display:none}
+  .row{grid-template-columns:clamp(88px,26vw,150px) minmax(0,1fr);
+    grid-template-areas:"thumb no" "thumb name" "thumb kind";
+    align-items:start;gap:4px clamp(14px,4vw,22px);
+    padding-block:clamp(16px,4vw,24px);min-height:0}
+  .row__thumb{display:block;align-self:center}
+  .row__kind{justify-self:start;text-align:left;margin-top:8px;white-space:normal}
+  .row__name{margin-block:2px}
+  /* the 8px nudge is a pointer affordance; there is no pointer here */
+  .row:hover .row__name,
+  .row:focus-visible .row__name{transform:none}
+}
+
+/* ══ FILMS VIEW. A categorised archive, not the curated nine-item index. The tab filter
+   is a progressive enhancement: base HTML sets no `hidden` anywhere in this grid, so
+   every entry stays visible with no JS, exactly like the rest of this page. ══════════ */
+.films{padding-block:clamp(40px,7vw,96px)}
+.films__head{position:static;z-index:auto;margin-bottom:clamp(28px,3.6vw,48px);
+  background:transparent;border:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+.films__h{margin:0;font-weight:200;font-size:clamp(30px,4vw,52px);line-height:.98;letter-spacing:-.02em}
+
+.films__tabs{display:flex;flex-wrap:wrap;gap:8px 10px;margin-bottom:clamp(24px,3.2vw,40px);
+  padding-bottom:clamp(20px,2.6vw,28px);border-bottom:1px solid var(--rule)}
+.tab{-webkit-appearance:none;appearance:none;background:none;color:var(--grey);cursor:pointer;
+  border:1px solid var(--rule);padding:7px 14px 6px;font:inherit;font-weight:300;font-size:11px;
+  line-height:1;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.tab[aria-pressed="true"]{color:var(--ink);background:var(--bone);border-color:var(--bone)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.films__grid{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2.6vw,32px) clamp(16px,2vw,24px)}
+@media (max-width:899px){.films__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:559px){.films__grid{grid-template-columns:1fr}}
+
+.film{display:block;scroll-margin-top:112px;transition:outline-color .3s cubic-bezier(.16,1,.3,1)}
+.film[hidden]{display:none}
+.film:target,.film.is-target{outline:1px solid var(--accent);outline-offset:8px}
+.film__still{display:block;aspect-ratio:16/9;overflow:hidden;background:var(--surface)}
+.film__still img{width:100%;height:100%;object-fit:cover}
+.film__still--pending{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 14px}
+.film__cap{margin:12px 0 3px;font-weight:300;font-size:clamp(15px,1.25vw,18px);line-height:1.25;
+  letter-spacing:-.012em;color:var(--bone);max-width:42ch}
+.film__cap--pending{color:var(--grey)}
+.film__kind{margin:0}
+
+.film__still{position:relative}
+.film__play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:52px;height:52px;border:1px solid var(--bone);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(11,11,12,.35);opacity:0;transition:opacity .2s ease}
+.film__play::after{content:"";width:0;height:0;margin-left:4px;
+  border-style:solid;border-width:8px 0 8px 13px;
+  border-color:transparent transparent transparent var(--bone)}
+a.film__still:hover .film__play,
+a.film__still:focus-visible .film__play{opacity:1}
+a.film__still:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ══ LIGHTBOX. aria-hidden toggled by JS only; base state is closed and inert. ═══════ */
+.lightbox{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;
+  padding:clamp(16px,4vw,48px);visibility:hidden;opacity:0;transition:opacity .18s ease}
+.lightbox[aria-hidden="false"]{visibility:visible;opacity:1}
+.lightbox__scrim{position:absolute;inset:0;background:rgba(11,11,12,.92);border:0;padding:0}
+.lightbox__box{position:relative;width:100%;max-width:1040px;z-index:1}
+.lightbox__video{display:block;width:100%;max-height:80vh;background:#000}
+.lightbox__close{position:absolute;top:-44px;right:0;width:36px;height:36px;
+  background:none;border:1px solid var(--bone);color:var(--bone);cursor:pointer;
+  font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
+.lightbox__close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ══ STUDIO VIEW. Minimal by instruction: a lede and three short paragraphs. ════════ */
+.studio{padding-block:clamp(46px,8vw,110px)}
+.studio__h{margin:0 0 clamp(16px,2vw,24px);font-weight:200;font-size:clamp(30px,5vw,64px);
+  line-height:1;letter-spacing:-.022em}
+.studio__lede{margin:0 0 clamp(20px,2.6vw,32px);font-size:clamp(17px,1.6vw,22px);
+  line-height:1.45;max-width:30ch}
+.studio p+p{margin-top:0}
+.studio__body{max-width:52ch}
+.studio__body p{margin:0 0 1em;color:var(--bone);font-size:15.5px;line-height:1.65}
+.studio__body p:last-child{margin-bottom:0}
+.studio__contact{display:inline-flex;align-items:center;justify-content:center;margin-top:clamp(10px,1.6vw,18px);
+  min-height:38px;border:1px solid var(--accent);padding:0 14px;color:var(--bone);text-decoration:none;
+  font-weight:300;font-size:11px;line-height:1;letter-spacing:.16em;text-transform:uppercase;
+  transition:background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1)}
+.studio__contact:hover,.studio__contact:focus-visible{background:var(--accent);color:var(--ink)}
+/* The DRAFT marker is rendered, visible and deliberately loud. Ink on resting ochre,
+   6.16:1. A label that exists only in a comment is not a label. */
+.draft{display:inline-block;margin:0 0 clamp(18px,2.2vw,26px);
+  font-weight:300;font-size:11px;line-height:1.35;letter-spacing:.08em;
+  color:var(--ink);background:var(--accent);padding:8px 10px 7px}
+
+/* ══ CONTACT FOOTER. A quiet editorial split with the working inquiry form. ═════════ */
+footer{background:var(--surface);border-top:1px solid var(--rule);
+  padding-block:clamp(48px,7vw,88px) clamp(38px,5vw,60px);scroll-margin-top:92px}
+.foot{display:grid;grid-template-columns:minmax(0,.82fr) minmax(320px,.68fr);gap:clamp(48px,8vw,128px)}
+.foot__intro{align-self:start;max-width:34rem}
+.foot__title{margin:0 0 20px;font-weight:200;font-size:clamp(32px,5vw,68px);
+  line-height:.96;letter-spacing:-.025em;text-wrap:balance}
+.foot__copy{max-width:35ch;margin:0 0 30px;color:var(--grey);font-size:14px;line-height:1.65}
+.mail{display:inline-block;font-weight:400;font-size:clamp(16px,1.25vw,18px);line-height:1.35;
+  letter-spacing:.045em;font-variant-ligatures:none;text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:9px;overflow-wrap:anywhere;
+  transition:border-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1)}
+.mail:hover,.mail:focus-visible{border-bottom-color:var(--accent);color:var(--accent)}
+.inquiry{display:grid;gap:18px;width:100%;max-width:34rem;justify-self:end}
+.field{display:grid;gap:7px}
+.field label{font-weight:300;font-size:10px;line-height:1.2;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+.field input,.field textarea{width:100%;border:1px solid var(--rule);border-color:color-mix(in srgb,var(--accent) 42%,transparent);
+  border-radius:0;background:var(--ink);color:var(--bone);font:300 15px/1.45 var(--sans);padding:13px 14px;outline:0;
+  transition:border-color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubic-bezier(.16,1,.3,1)}
+.field textarea{min-height:168px;resize:vertical}
+.field input:hover,.field textarea:hover{border-color:var(--grey)}
+.field input:focus-visible,.field textarea:focus-visible{border-color:var(--accent);background:var(--plate)}
+.field input[aria-invalid="true"],.field textarea[aria-invalid="true"]{border-color:var(--accent)}
+.field__error{min-height:1.2em;margin:0;color:var(--accent);font-size:11px;line-height:1.4}
+.trap{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.inquiry__send{justify-self:center;min-width:132px;border:1px solid var(--accent);border-radius:0;
+  background:var(--accent);color:var(--ink);cursor:pointer;padding:12px 24px 11px;font:300 11px/1 var(--sans);
+  letter-spacing:.18em;text-transform:uppercase;transition:transform .3s cubic-bezier(.16,1,.3,1),
+  background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1)}
+.inquiry__send:hover{background:var(--bone);border-color:var(--bone)}
+.inquiry__send:active{transform:translateY(1px)}
+.inquiry__send:disabled{cursor:wait;opacity:.65}
+.inquiry__status{min-height:1.5em;margin:0;color:var(--grey);font-size:12px;line-height:1.5}
+.inquiry__status[data-state="success"]{color:var(--bone)}
+.inquiry__status[data-state="error"]{color:var(--accent)}
+.foot__legal{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;gap:12px 30px;
+  margin-top:clamp(10px,2vw,24px);padding-top:22px;border-top:1px solid var(--rule)}
+.foot__legal small{font-size:10px;line-height:1.5;color:var(--grey);letter-spacing:.12em;text-transform:uppercase}
+@media (max-width:767px){
+  .foot{grid-template-columns:1fr;gap:42px}
+  .inquiry{justify-self:start;max-width:none}
+  .foot__legal{grid-column:auto;align-items:flex-start;flex-direction:column}
+}
+
+/* ══ REDUCED MOTION ═════════════════════════════════════════════════════════════════
+   There is no CSS animation in this file at all, so this only has transitions to switch
+   off. The page is already in its finished state in every mode; nothing here reveals
+   anything. The video's own autoplay is handled in script, not here.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;
+    scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<!-- split:header:start -->
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="bar">
+    <a class="brand" href="index.html#top">
+      <img src="{{mark_white}}" alt="" width="520" height="1074">
+      <span class="brand__name">VIVÍR</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="index.html#work" data-page="landing">Work</a>
+      <a href="films.html" data-page="films">Films</a>
+      <a href="studio.html" data-page="studio">Studio</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- split:header:end -->
+<!-- split:landing:start -->
+<main id="main" data-page="landing">
+
+<!-- ═══ VIEW 1 · THE FILM INDEX ══════════════════════════════════════════════════════ -->
+  <section class="hero" id="top">
+    <video class="hero__film" id="film"
+           src="/media/hero.mp4"
+           poster="/media/hero-poster.jpg"
+           autoplay muted loop playsinline preload="auto"
+           aria-label="Hero film. It plays without sound. Use the sound button to unmute."></video>
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="hero__ui">
+      <div class="hero__copy">
+        <p class="hero__title">Jesus Reigns 2023 - Vivír</p>
+        <h1 class="hero__line">DIGITAL MISSIONARIES, UNVEILING TESTIMONIES</h1>
+      </div>
+      <div class="hero__actions">
+        <a class="hero__contact" href="#contact">Contact</a>
+        <button class="snd" id="snd" type="button" aria-pressed="false">
+          <span class="snd__dot" aria-hidden="true"></span>
+          <span class="snd__t" id="sndT">Sound off</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ THE INDEX ═══════════════════════════════════════════════════════════════════
+       Nine rows, full width, hairline separated. Each row is a real anchor: focus and
+       hover both swap the backdrop, while activation opens and highlights the matching
+       archive tile. On touch, the inline still remains visible inside the link.
+       ═════════════════════════════════════════════════════════════════════════════ -->
+  <section class="index" id="work">
+    <div class="stage" aria-hidden="true">
+      <div class="bd" id="bdA"></div>
+      <div class="bd" id="bdB"></div>
+    </div>
+    <div class="wrap index__in">
+      <div class="index__head">
+        <p class="lbl">Index</p>
+        <p class="lbl lbl--grey">[Selection to be confirmed]</p>
+      </div>
+      <ol class="rows">
+
+        <li><a class="row" href="films.html#film-dinagyang" data-still="/media/work/dinagyang.jpg">
+          <span class="row__no">01</span>
+          <span class="row__thumb"><img src="/media/work/dinagyang.jpg" width="1280" height="534"
+            alt="Aerial frame: a street procession beside a harbour, rows of dancers in orange spread across the road, crowds packed behind the barriers."></span>
+          <span class="row__name">DINAGYANG</span>
+          <span class="row__kind">same day edit</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-iloilo-city" data-still="/media/work/demoreel.jpg">
+          <span class="row__no">02</span>
+          <span class="row__thumb"><img src="/media/work/demoreel.jpg" width="1280" height="534"
+            alt="A green jeepney fills the foreground, its rail and roof rack sharp; beyond it a figure stands in the sunlit street."></span>
+          <span class="row__name">ILOILO CITY</span>
+          <span class="row__kind">demo reel</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-coronation-night">
+          <span class="row__no">03</span>
+          <span class="row__thumb"><span class="lbl lbl--grey row__pending">[Photo pending - consent to be confirmed]</span></span>
+          <span class="row__name">CORONATION NIGHT</span>
+          <span class="row__kind">pageant</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-engineering-summit" data-still="/media/work/summit.jpg">
+          <span class="row__no">04</span>
+          <span class="row__thumb"><img src="/media/work/summit.jpg" width="1280" height="534"
+            alt="A dancer in layered woven costume bends low in front of a large projected globe on a conference stage."></span>
+          <span class="row__name">ENGINEERING SUMMIT</span>
+          <span class="row__kind">corporate</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-city-celebration" data-still="/media/work/celebration.jpg">
+          <span class="row__no">05</span>
+          <span class="row__thumb"><img src="/media/work/celebration.jpg" width="1280" height="534"
+            alt="An aerial view of a riverside promenade lined with white event tents, a dense crowd along the water's edge."></span>
+          <span class="row__name">CITY CELEBRATION</span>
+          <span class="row__kind">same day edit</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-advocacy" data-still="/media/work/advocacy.jpg">
+          <span class="row__no">06</span>
+          <span class="row__thumb"><img src="/media/work/advocacy.jpg" width="1280" height="534"
+            alt="Aerial frame: rooftops and market awnings pressed against a green field, a road running down to the water at the edge of town."></span>
+          <span class="row__name">ADVOCACY</span>
+          <span class="row__kind">advocacy film</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-pre-wedding" data-still="/media/work/prewedding.jpg">
+          <span class="row__no">07</span>
+          <span class="row__thumb"><img src="/media/work/prewedding.jpg" width="1280" height="534"
+            alt="Two people close to the lens outside a shopfront, holding ice cream, caught mid laugh."></span>
+          <span class="row__name">PRE-WEDDING</span>
+          <span class="row__kind">film</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-talents-night" data-still="/media/work/talents.jpg">
+          <span class="row__no">08</span>
+          <span class="row__thumb"><img src="/media/work/talents.jpg" width="1280" height="534"
+            alt="Two figures in formal wear meet mid stage under low light, one carrying a bag, sparks projected on the screen behind them."></span>
+          <span class="row__name">TALENTS NIGHT</span>
+          <span class="row__kind">highlights</span>
+        </a></li>
+
+        <li><a class="row" href="films.html#film-teaser" data-still="/media/work/teaser.jpg">
+          <span class="row__no">09</span>
+          <span class="row__thumb"><img src="/media/work/teaser.jpg" width="1280" height="534"
+            alt="Two people stand in tall grass under a bright sky, one holding an acoustic guitar."></span>
+          <span class="row__name">TEASER</span>
+          <span class="row__kind">teaser</span>
+        </a></li>
+
+      </ol>
+    </div>
+  </section>
+
+</main><!-- split:landing:end -->
+
+<!-- ═══ VIEW · FILMS ════════════════════════════════════════════════════════════════
+     A deeper, categorised archive - not the curated nine-item index above. Categories
+     are the studio's own folder names, cleaned up for reading; nothing here is a client,
+     event or brand name. Every image is a still, not a playable clip: turning these into
+     click-to-play needs a real per-video web encode for each one first (the hero already
+     went through that decision at ~90MB; doing the same for eleven more clips is a
+     comparable-weight decision that has not been made yet, so this view does not
+     silently commit to it). Base state with no JS: every entry visible, unfiltered - the
+     tabs are a progressive enhancement, not a requirement to see the work. ═══════════ -->
+<!-- split:films:start -->
+<main id="main" data-page="films">
+  <section class="films" aria-labelledby="films-h">
+    <div class="wrap">
+      <header class="films__head">
+        <h1 id="films-h" class="films__h">Film archive</h1>
+      </header>
+
+      <div class="films__tabs" role="group" aria-label="Filter by category">
+        <button class="tab" type="button" aria-pressed="true"  data-cat="all">All</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="corporate">Corporate</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="tourism">Tourism &amp; Advocacy</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="highlights">Highlights</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="prewedding">Pre-Wedding</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="predebut">Pre-Debut</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="reels">Reels</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="teasers">Teasers</button>
+        <button class="tab" type="button" aria-pressed="false" data-cat="ads">Ads</button>
+      </div>
+
+      <ul class="films__grid">
+
+        <li class="film" id="film-dinagyang" data-cat="corporate">
+          <a class="film__still" href="/media/clips/dinagyang.mp4" data-clip="/media/clips/dinagyang.mp4" aria-label="Play: Aerial frame: a street procession beside a harbour, rows of dancers in orange spread across the road, crowds packed behind the barriers.">
+            <img src="/media/work/dinagyang.jpg" width="1280" height="534" loading="lazy" alt="Aerial frame: a street procession beside a harbour, rows of dancers in orange spread across the road, crowds packed behind the barriers."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Dinagyang Same-Day Edit</h2>
+          <p class="lbl lbl--grey film__kind">Corporate</p>
+        </li>
+
+        <li class="film" id="film-engineering-summit" data-cat="corporate">
+          <a class="film__still" href="/media/clips/summit.mp4" data-clip="/media/clips/summit.mp4" aria-label="Play: A dancer in layered woven costume bends low in front of a large projected globe on a conference stage.">
+            <img src="/media/work/summit.jpg" width="1280" height="534" loading="lazy" alt="A dancer in layered woven costume bends low in front of a large projected globe on a conference stage."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Engineering Summit Same-Day Edit</h2>
+          <p class="lbl lbl--grey film__kind">Corporate</p>
+        </li>
+
+        <li class="film" id="film-city-celebration" data-cat="corporate">
+          <a class="film__still" href="/media/hero.mp4" data-clip="/media/hero.mp4" aria-label="Play: An aerial view of a riverside promenade lined with white event tents, a dense crowd along the water's edge.">
+            <img src="/media/work/celebration.jpg" width="1280" height="534" loading="lazy" alt="An aerial view of a riverside promenade lined with white event tents, a dense crowd along the water's edge."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Jesus Reigns 2023 - Vivír</h2>
+          <p class="lbl lbl--grey film__kind">Corporate</p>
+        </li>
+
+        <li class="film film--pending" id="film-coronation-night" data-cat="corporate">
+          <span class="film__still film__still--pending"><span class="lbl lbl--grey">[Photo pending - consent to be confirmed]</span></span>
+          <h2 class="film__cap film__cap--pending">Coronation Night Same-Day Edit</h2>
+          <p class="lbl lbl--grey film__kind">Corporate</p>
+        </li>
+
+        <li class="film" id="film-advocacy" data-cat="tourism">
+          <a class="film__still" href="/media/clips/advocacy.mp4" data-clip="/media/clips/advocacy.mp4" aria-label="Play: Aerial frame: rooftops and market awnings pressed against a green field, a road running down to the water at the edge of town.">
+            <img src="/media/work/advocacy.jpg" width="1280" height="534" loading="lazy" alt="Aerial frame: rooftops and market awnings pressed against a green field, a road running down to the water at the edge of town."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Advocacy Film</h2>
+          <p class="lbl lbl--grey film__kind">Tourism &amp; Advocacy</p>
+        </li>
+
+        <li class="film" id="film-iloilo-city" data-cat="tourism">
+          <a class="film__still" href="/media/clips/demoreel.mp4" data-clip="/media/clips/demoreel.mp4" aria-label="Play: A green jeepney fills the foreground, its rail and roof rack sharp; beyond it a figure stands in the sunlit street.">
+            <img src="/media/work/demoreel.jpg" width="1280" height="534" loading="lazy" alt="A green jeepney fills the foreground, its rail and roof rack sharp; beyond it a figure stands in the sunlit street."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Iloilo City Demo Reel</h2>
+          <p class="lbl lbl--grey film__kind">Tourism &amp; Advocacy</p>
+        </li>
+
+        <li class="film" data-cat="tourism">
+          <a class="film__still" href="/media/clips/advworld.mp4" data-clip="/media/clips/advworld.mp4" aria-label="Play: A woman walks along a shoreline at low tide, looking back toward the water.">
+            <img src="/media/films/advocacy-world.jpg" width="1280" height="534" loading="lazy" alt="A woman walks along a shoreline at low tide, looking back toward the water."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Advocacy Film I</h2>
+          <p class="lbl lbl--grey film__kind">Tourism &amp; Advocacy</p>
+        </li>
+
+        <li class="film" data-cat="tourism">
+          <a class="film__still" href="/media/clips/advrona.mp4" data-clip="/media/clips/advrona.mp4" aria-label="Play: Vendors and shoppers move through an open-air market under a corrugated roof.">
+            <img src="/media/films/advocacy-rona.jpg" width="1280" height="534" loading="lazy" alt="Vendors and shoppers move through an open-air market under a corrugated roof."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Advocacy Film II</h2>
+          <p class="lbl lbl--grey film__kind">Tourism &amp; Advocacy</p>
+        </li>
+
+        <li class="film" id="film-talents-night" data-cat="highlights">
+          <a class="film__still" href="/media/clips/talents.mp4" data-clip="/media/clips/talents.mp4" aria-label="Play: Two figures in formal wear meet mid stage under low light, one carrying a bag, sparks projected on the screen behind them.">
+            <img src="/media/work/talents.jpg" width="1280" height="534" loading="lazy" alt="Two figures in formal wear meet mid stage under low light, one carrying a bag, sparks projected on the screen behind them."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Talents Night Highlights</h2>
+          <p class="lbl lbl--grey film__kind">Highlights</p>
+        </li>
+
+        <li class="film" id="film-pre-wedding" data-cat="prewedding">
+          <a class="film__still" href="/media/clips/prewedding.mp4" data-clip="/media/clips/prewedding.mp4" aria-label="Play: Two people close to the lens outside a shopfront, holding ice cream, caught mid laugh.">
+            <img src="/media/work/prewedding.jpg" width="1280" height="534" loading="lazy" alt="Two people close to the lens outside a shopfront, holding ice cream, caught mid laugh."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Pre-Wedding Film</h2>
+          <p class="lbl lbl--grey film__kind">Pre-Wedding</p>
+        </li>
+
+        <li class="film" data-cat="predebut">
+          <a class="film__still" href="/media/clips/gail.mp4" data-clip="/media/clips/gail.mp4" aria-label="Play: A silhouette turns through drifting stage fog, lit from behind.">
+            <img src="/media/films/predebut-gail.jpg" width="1280" height="534" loading="lazy" alt="A silhouette turns through drifting stage fog, lit from behind."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Pre-Debut Film</h2>
+          <p class="lbl lbl--grey film__kind">Pre-Debut</p>
+        </li>
+
+        <li class="film" data-cat="reels">
+          <a class="film__still" href="/media/clips/dinagyangreel.mp4" data-clip="/media/clips/dinagyangreel.mp4" aria-label="Play: Dancers in woven green costume hold formation in a festival lineup.">
+            <img src="/media/films/dinagyang-reel.jpg" width="1280" height="534" loading="lazy" alt="Dancers in woven green costume hold formation in a festival lineup."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Dinagyang Countdown Reel</h2>
+          <p class="lbl lbl--grey film__kind">Reels</p>
+        </li>
+
+        <li class="film" id="film-teaser" data-cat="teasers">
+          <a class="film__still" href="/media/clips/teaser.mp4" data-clip="/media/clips/teaser.mp4" aria-label="Play: Two people stand in tall grass under a bright sky, one holding an acoustic guitar.">
+            <img src="/media/work/teaser.jpg" width="1280" height="534" loading="lazy" alt="Two people stand in tall grass under a bright sky, one holding an acoustic guitar."><span class="film__play" aria-hidden="true"></span></a>
+          <h2 class="film__cap">Event Teaser</h2>
+          <p class="lbl lbl--grey film__kind">Teasers</p>
+        </li>
+
+        <li class="film film--pending" data-cat="ads">
+          <span class="film__still film__still--pending"><span class="lbl lbl--grey">[Photo pending - consent to be confirmed]</span></span>
+          <h2 class="film__cap film__cap--pending">[Ad Film - title to be confirmed]</h2>
+          <p class="lbl lbl--grey film__kind">Ads</p>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+</main><!-- split:films:end -->
+
+<!-- ═══ VIEW 2 · STUDIO ═════════════════════════════════════════════════════════════ -->
+<!-- split:studio:start -->
+<main id="main" data-page="studio">
+  <section class="studio wrap">
+    <h2 class="studio__h">Studio</h2>
+    <p class="studio__lede">A production and media studio in [Location - to be confirmed].</p>
+    <p class="draft">[DRAFT - replace with Vivír's real story]</p>
+    <div class="studio__body">
+      <p>Same day edits, pageants, corporate events, pre-wedding and pre-debut work, tourism and advocacy films.</p>
+      <p>The index is the work. Titles describe the frame, not the client.</p>
+      <p>Write to us and we will say whether we are the right people for it.</p>
+    </div>
+    <a class="studio__contact" href="#contact">Contact</a>
+  </section>
+</main><!-- split:studio:end -->
+
+<!-- ═══ LIGHTBOX. Its own viewport, opened by clicking a Films tile. Nothing here loads
+     until a tile is actually clicked - src is set on open and cleared on close, so the
+     eleven clips are never fetched just by visiting the page. Outside <main> because a
+     modal dialog is not page content; aria-hidden true/false, never the base-hidden
+     pattern the three views use, since this is not one of them. ══════════════════════ -->
+<!-- split:lightbox:start -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox__scrim" data-close="true"></div>
+  <div class="lightbox__box" role="dialog" aria-modal="true" aria-label="Video player">
+    <button class="lightbox__close" type="button" data-close="true">
+      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
+    <video class="lightbox__video" id="lightboxVideo" controls playsinline></video>
+  </div>
+</div>
+<!-- split:lightbox:end -->
+
+<!-- split:footer:start -->
+<footer id="contact">
+  <div class="wrap foot">
+    <div class="foot__intro">
+      <h2 class="foot__title">Tell us what you are making.</h2>
+      <p class="foot__copy">Tell us about the project, what you need, and where you are in the process.</p>
+      <a class="mail" href="mailto:vivir.production@gmail.com">vivir.production@gmail.com</a>
+    </div>
+
+    <form class="inquiry" id="inquiry" action="/api/inquiry" method="post">
+      <div class="field">
+        <label for="inquiry-name">Name *</label>
+        <input id="inquiry-name" name="name" type="text" autocomplete="name" maxlength="120" required aria-describedby="inquiry-name-error">
+        <p class="field__error" id="inquiry-name-error"></p>
+      </div>
+      <div class="field">
+        <label for="inquiry-email">Email *</label>
+        <input id="inquiry-email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="inquiry-email-error">
+        <p class="field__error" id="inquiry-email-error"></p>
+      </div>
+      <div class="field">
+        <label for="inquiry-subject">Subject <span class="sr-only">optional</span></label>
+        <input id="inquiry-subject" name="subject" type="text" autocomplete="off" maxlength="160" aria-describedby="inquiry-subject-error">
+        <p class="field__error" id="inquiry-subject-error"></p>
+      </div>
+      <div class="field">
+        <label for="inquiry-message">Message *</label>
+        <textarea id="inquiry-message" name="message" autocomplete="off" maxlength="4000" required aria-describedby="inquiry-message-error"></textarea>
+        <p class="field__error" id="inquiry-message-error"></p>
+      </div>
+      <div class="trap" aria-hidden="true">
+        <label for="inquiry-company">Company</label>
+        <input id="inquiry-company" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="inquiry__send" type="submit">Send inquiry</button>
+      <p class="inquiry__status" id="inquiry-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="foot__legal">
+      <small>Copyright Vivír. Prototype, not a live site.</small>
+    </div>
+  </div>
+</footer>
+<!-- split:footer:end -->
+
+<script>
+(function(){
+'use strict';
+
+var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+/* ══ 0 · REDUCED MOTION AND THE FILM ═════════════════════════════════════════════════
+   Moved here from a separate inline <script> right after the video element. That
+   placement mattered for a plain static page: a 3m48s file with preload="auto" can
+   begin fetching while the rest of the document is still parsing, and this ran before
+   that happened. It stops mattering once this same markup is committed by React in one
+   dangerouslySetInnerHTML call - the whole body lands in the DOM in a single operation
+   either way, so there is no longer an earlier point in the page for a separate script
+   tag to occupy. One bundle, run once, is simpler to port and no less correct.
+   Under reduce: autoplay is removed, preload drops to none, and load() returns the
+   element to its poster. The sound toggle is then the only thing that starts it, which
+   is the intended behaviour and not a degradation. With no JS at all the video simply
+   autoplays muted, which is the safe default. ═══════════════════════════════════════ */
+(function(){
+  var v = document.getElementById('film');
+  if (!v || !reduce) return;
+  v.removeAttribute('autoplay');
+  v.autoplay = false;
+  v.preload = 'none';
+  try { v.pause(); } catch (e) {}
+  try { v.load(); } catch (e) {}
+})();
+
+/* ══ 1 · THE FILM AND THE SOUND TOGGLE ══════════════════════════════════════════════
+   Browsers refuse to autoplay audio, so the film starts muted and the toggle is the
+   only way to sound. It is a real button: keyboard reachable, visibly focused, and its
+   aria-pressed and its label both follow video.muted rather than a variable of our own.
+   ═════════════════════════════════════════════════════════════════════════════════ */
+(function(){
+  var v = document.getElementById('film');
+  var b = document.getElementById('snd');
+  var t = document.getElementById('sndT');
+  if (!v || !b || !t) return;
+
+  function paint(){
+    var on = !v.muted;
+    t.textContent = on ? 'Sound on' : 'Sound off';
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+  /* iOS low power mode REJECTS play(). An uncaught rejection prints a console error and
+     tells the visitor nothing, so every call is caught and the poster simply stays. */
+  function start(){
+    var p;
+    try { p = v.play(); } catch (e) { return; }
+    if (p && p.catch) p.catch(function(){});
+  }
+
+  b.addEventListener('click', function(){
+    var turningOn = v.muted;
+    v.muted = !turningOn;
+    if (turningOn) { start(); }
+    else if (reduce) { v.pause(); }   /* under reduce, sound off means stop, not mute */
+    paint();
+  });
+
+  /* The autoplay attribute has already fired by now; this call exists for the catch. */
+  if (!reduce) start();
+  paint();
+})();
+
+/* ══ 2 · THE INDEX BACKDROP ═════════════════════════════════════════════════════════
+   Two layers, crossfaded. Hover and FOCUS are wired to the same handler, because a
+   keyboard user has no other way to see the stills. Activation follows the row's film
+   anchor, so the decorative backdrop never owns click state.
+   Nothing here reveals content: the layers are decorative, aria-hidden, and the same
+   nine files are visible <img> content in every row below 900px.
+   ═════════════════════════════════════════════════════════════════════════════════ */
+(function(){
+  var rows = [].slice.call(document.querySelectorAll('.row'));
+  var A = document.getElementById('bdA'), B = document.getElementById('bdB');
+  if (!rows.length || !A || !B) return;
+
+  var layers = [A, B], cur = 0;
+
+  function paint(url){
+    if (!url) { A.classList.remove('on'); B.classList.remove('on'); return; }
+    var live = layers[cur];
+    if (live.getAttribute('data-url') === url && live.classList.contains('on')) return;
+    var next = layers[cur ^ 1];
+    if (next.getAttribute('data-url') !== url) {
+      next.style.backgroundImage = 'url("' + url + '")';
+      next.setAttribute('data-url', url);
+    }
+    next.classList.add('on');
+    live.classList.remove('on');
+    cur ^= 1;
+  }
+  function lift(btn){ paint(btn.getAttribute('data-still')); }
+  function drop(){ paint(null); }
+
+  rows.forEach(function(btn){
+    btn.addEventListener('mouseenter', function(){ lift(btn); });
+    btn.addEventListener('focus',      function(){ lift(btn); });
+    btn.addEventListener('mouseleave', drop);
+    btn.addEventListener('blur',       drop);
+  });
+})();
+
+/* ══ 3 · THE VIEW SWITCH ════════════════════════════════════════════════════════════
+   Lifted from prototypes/ink-v1-ochre, then generalised from exactly-two views to N.
+   The original hardcoded VIEWS.landing/VIEWS.studio by name in four places; a third
+   view (films) needs every one of those to become a loop over VIEWS, or the new view
+   never hides the other two, or never gets found by nameOf/viewOf. Behaviour for
+   landing/studio is unchanged - this only removes the "exactly two" assumption.
+   The base document is all views, stacked, and every link in it is a working in-page
+   anchor before this runs. All this adds is: show one at a time, keep URL and history
+   in step, and hand focus to what was asked for.
+   ═════════════════════════════════════════════════════════════════════════════════ */
+(function(){
+  var VIEWS = {
+    landing: document.getElementById('landing'),
+    films:   document.getElementById('films'),
+    studio:  document.getElementById('studio')
+  };
+  var HASH = { landing: '#top', films: '#films', studio: '#studio' };
+  var NAMES = Object.keys(VIEWS);
+  var root = document.documentElement;
+  var current = null;
+
+  for (var vi = 0; vi < NAMES.length; vi++) { if (!VIEWS[NAMES[vi]]) return; }
+  root.classList.add('js-views');
+
+  var navLinks = [].slice.call(document.querySelectorAll('nav a[data-view]'));
+
+  /* Which view owns an element, or null if it is outside all of them. The footer and
+     the <main> the skip link points at are outside every view, and must never trigger
+     a switch. */
+  function viewOf(el){
+    if (!el) return null;
+    var v = el.closest ? el.closest('.view') : null;
+    if (!v) return null;
+    for (var i = 0; i < NAMES.length; i++) { if (v === VIEWS[NAMES[i]]) return NAMES[i]; }
+    return null;
+  }
+  function targetOf(hash){
+    if (!hash || hash.charAt(0) !== '#' || hash.length < 2) return null;
+    try { return document.getElementById(decodeURIComponent(hash.slice(1))); }
+    catch (e) { return null; }
+  }
+  function nameOf(el, fallback){
+    for (var i = 0; i < NAMES.length; i++) { if (el === VIEWS[NAMES[i]]) return NAMES[i]; }
+    return viewOf(el) || fallback;
+  }
+  function focusIt(el){
+    if (!el) return;
+    var temporary = !el.hasAttribute('tabindex');
+    if (temporary) el.setAttribute('tabindex', '-1');
+    try { el.focus({preventScroll:true}); } catch (e) { el.focus(); }
+    if (temporary) {
+      el.addEventListener('blur', function off(){
+        el.removeAttribute('tabindex');
+        el.removeEventListener('blur', off);
+      });
+    }
+  }
+
+  function showView(name, target, push, move){
+    if (!VIEWS[name]) return;
+    if (name === 'films' && target && target.classList && target.classList.contains('film')) {
+      applyFilmFilter('all');
+    }
+    [].slice.call(document.querySelectorAll('.film.is-target')).forEach(function(film){
+      film.classList.remove('is-target');
+    });
+    if (name === 'films' && target && target.classList && target.classList.contains('film')) {
+      target.classList.add('is-target');
+    }
+    var changed = (name !== current);
+    current = name;
+
+    /* The `hidden` ATTRIBUTE, not a class: it takes the view out of the accessibility
+       tree AND out of the tab order, which visually gone alone does not. Every view
+       not named gets it; the one named loses it - the loop is what makes this correct
+       for any number of views instead of exactly two. */
+    for (var i = 0; i < NAMES.length; i++) { VIEWS[NAMES[i]].hidden = (NAMES[i] !== name); }
+
+    for (var j = 0; j < navLinks.length; j++) {
+      if (navLinks[j].getAttribute('data-view') === name) navLinks[j].setAttribute('aria-current', 'page');
+      else navLinks[j].removeAttribute('aria-current');
+    }
+
+    if (push) {
+      var h = target && target.id ? '#' + encodeURIComponent(target.id) : HASH[name];
+      try { history.pushState({view:name}, '', h); }
+      catch (e) { if (location.hash !== h) location.hash = h; }   /* sandboxed history */
+    }
+
+    if (changed || push) {
+      var top = VIEWS[name];
+      if (!target || target === top || target === top.firstElementChild) window.scrollTo(0, 0);
+      else target.scrollIntoView();
+      if (move) focusIt(target && target !== top ? target : top.querySelector('h1'));
+    }
+  }
+
+  /* Intercept only the links that cross from one view into the other. Everything else,
+     including the skip link and the footer contact anchor, keeps native behaviour. */
+  document.addEventListener('click', function(ev){
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target.closest ? ev.target.closest('a[href]') : null;
+    if (!a || a.target === '_blank') return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '#') return;
+    var target = targetOf(href);
+    var owner = nameOf(target, null);
+    if (!owner || owner === current) return;
+    ev.preventDefault();
+    showView(owner, target, true, true);
+  });
+
+  window.addEventListener('popstate', function(){
+    var target = targetOf(location.hash);
+    showView(nameOf(target, 'landing'), target, false, true);
+  });
+  window.addEventListener('hashchange', function(){
+    var target = targetOf(location.hash);
+    var name = nameOf(target, null);
+    if (name && name !== current) showView(name, target, false, true);
+  });
+
+  var first = targetOf(location.hash);
+  showView(nameOf(first, 'landing'), first, false, false);
+
+  /* MEASURED, not guessed: Chromium runs its own fragment scroll AFTER an end of body
+     script, at readyState "interactive". On a deep link the target view has just been
+     moved to the top of the document, so the browser scrolls it flush and takes the
+     header off screen with it: scrollY 73 where showView had already set 0. Two re
+     assertions, one on the frame after next and one on load, cover both orderings.
+     Guarded on scrollY so a visitor who has already scrolled is never yanked back, and
+     deliberately NOT history.scrollRestoration = 'manual', which trades this bug for a
+     worse one: losing the reader's position on every back navigation. */
+  function isAnyViewTop(el){
+    for (var k = 0; k < NAMES.length; k++) { if (el === VIEWS[NAMES[k]]) return true; }
+    return false;
+  }
+  if (!first || isAnyViewTop(first)) {
+    var settle = function(){ if (window.scrollY < 200) window.scrollTo(0, 0); };
+    requestAnimationFrame(function(){ requestAnimationFrame(settle); });
+    window.addEventListener('load', settle);
+  }
+})();
+
+/* ══ 4 · FILMS FILTER ═══════════════════════════════════════════════════════════════
+   Progressive enhancement only: base HTML carries no `hidden` anywhere in the grid, so
+   every entry is visible with no JS - this only adds the ability to narrow the view.
+   The `hidden` ATTRIBUTE again, same reason as the view switch: takes a filtered-out
+   entry out of the accessibility tree and the tab order, not just off screen.
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function applyFilmFilter(cat){
+  var tabs = [].slice.call(document.querySelectorAll('.films .tab'));
+  var films = [].slice.call(document.querySelectorAll('.films .film'));
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].setAttribute('aria-pressed', tabs[i].getAttribute('data-cat') === cat ? 'true' : 'false');
+  }
+  for (var j = 0; j < films.length; j++) {
+    films[j].hidden = !(cat === 'all' || films[j].getAttribute('data-cat') === cat);
+  }
+}
+
+(function(){
+  var tabs = [].slice.call(document.querySelectorAll('.films .tab'));
+  if (!tabs.length) return;
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){ applyFilmFilter(btn.getAttribute('data-cat')); });
+  });
+})();
+
+(function(){
+  var archive = document.querySelector('.films');
+  if (!archive) return;
+
+  function focusTarget(){
+    [].slice.call(document.querySelectorAll('.film.is-target')).forEach(function(film){
+      film.classList.remove('is-target');
+    });
+    if (!window.location.hash) return;
+    var id = window.location.hash.slice(1);
+    var target;
+    try { target = document.getElementById(decodeURIComponent(id)); }
+    catch (e) { return; }
+    if (!target || !target.classList.contains('film')) return;
+
+    applyFilmFilter('all');
+    target.classList.add('is-target');
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        if (window.location.hash.slice(1) !== id) return;
+        target.scrollIntoView({block:'start'});
+        var temporary = !target.hasAttribute('tabindex');
+        if (temporary) target.setAttribute('tabindex', '-1');
+        try { target.focus({preventScroll:true}); } catch (e) { target.focus(); }
+        if (temporary) {
+          target.addEventListener('blur', function off(){
+            target.removeAttribute('tabindex');
+            target.removeEventListener('blur', off);
+          });
+        }
+      });
+    });
+  }
+
+  window.addEventListener('hashchange', focusTarget);
+  focusTarget();
+})();
+
+/* ══ 5 · LIGHTBOX ═══════════════════════════════════════════════════════════════════
+   Every Films tile is a real <a href="/media/clips/x.mp4">: with no JS it just opens or
+   downloads the clip natively, which is a completely fine fallback. This intercepts that
+   same click and plays it in an overlay instead. The clip is never fetched until this
+   fires - src is set on open, cleared on close, so eleven clips are not eleven eager
+   downloads sitting on the page at rest.
+   ═════════════════════════════════════════════════════════════════════════════════ */
+(function(){
+  var box = document.getElementById('lightbox');
+  var video = document.getElementById('lightboxVideo');
+  var triggers = [].slice.call(document.querySelectorAll('[data-clip]'));
+  if (!box || !video || !triggers.length) return;
+
+  var lastFocus = null;
+
+  function focusables(){
+    return [].slice.call(box.querySelectorAll('button, video, [tabindex]'))
+      .filter(function(el){ return !el.hasAttribute('disabled'); });
+  }
+
+  function open(url, label, from){
+    lastFocus = from || document.activeElement;
+    video.src = url;
+    video.setAttribute('aria-label', label || 'Video');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var f = focusables();
+    (f[0] || box).focus();
+    var p = video.play();
+    if (p && p.catch) p.catch(function(){});
+  }
+
+  function close(){
+    if (box.getAttribute('aria-hidden') === 'true') return;
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  }
+
+  triggers.forEach(function(a){
+    a.addEventListener('click', function(ev){
+      if (ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      ev.preventDefault();
+      open(a.getAttribute('data-clip'), a.getAttribute('aria-label'), a);
+    });
+  });
+
+  [].slice.call(box.querySelectorAll('[data-close]')).forEach(function(el){
+    el.addEventListener('click', close);
+  });
+
+  document.addEventListener('keydown', function(ev){
+    if (box.getAttribute('aria-hidden') === 'true') return;
+    if (ev.key === 'Escape') { close(); return; }
+    /* a minimal focus trap: Tab past the last focusable wraps to the first, and vice
+       versa, so a keyboard user cannot tab out into the page hidden behind the scrim */
+    if (ev.key === 'Tab') {
+      var f = focusables();
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+      else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+    }
+  });
+})();
+
+/* Contact submission keeps the ordinary form POST as its no-JS path. With JavaScript,
+   the same FormData is sent in place and every outcome remains beside the form. */
+(function(){
+  var form = document.getElementById('inquiry');
+  var status = document.getElementById('inquiry-status');
+  if (!form || !status || !window.fetch || !window.FormData) return;
+
+  var button = form.querySelector('[type="submit"]');
+  var sending = false;
+  var fields = ['name', 'email', 'subject', 'message'];
+  form.noValidate = true;
+
+  function inputFor(name){ return form.elements.namedItem(name); }
+  function errorFor(name){ return document.getElementById('inquiry-' + name + '-error'); }
+  function clearErrors(){
+    fields.forEach(function(name){
+      var input = inputFor(name), error = errorFor(name);
+      if (input) input.removeAttribute('aria-invalid');
+      if (error) error.textContent = '';
+    });
+  }
+  function setError(name, message){
+    var input = inputFor(name), error = errorFor(name);
+    if (input) input.setAttribute('aria-invalid', 'true');
+    if (error) error.textContent = message;
+  }
+  function setStatus(message, state, withEmail){
+    status.textContent = message;
+    status.setAttribute('data-state', state || '');
+    if (withEmail) {
+      status.appendChild(document.createTextNode(' '));
+      var link = document.createElement('a');
+      link.href = 'mailto:vivir.production@gmail.com';
+      link.textContent = 'vivir.production@gmail.com';
+      status.appendChild(link);
+    }
+  }
+  function validateLocal(){
+    clearErrors();
+    var first = null;
+    fields.forEach(function(name){
+      var input = inputFor(name);
+      if (!input || input.validity.valid) return;
+      var message = input.validity.valueMissing
+        ? (name === 'name' ? 'Please tell us your name.' : name === 'email'
+          ? 'Please give us an email address to reply to.' : 'Please tell us a little about your inquiry.')
+        : name === 'email' ? 'That email address does not look right.' : 'Please check this field.';
+      setError(name, message);
+      if (!first) first = input;
+    });
+    if (first) first.focus();
+    return !first;
+  }
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    if (sending || !validateLocal()) return;
+    sending = true;
+    button.disabled = true;
+    button.textContent = 'Sending...';
+    setStatus('Sending your inquiry.', '');
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {'Accept':'application/json'}
+    }).then(function(response){
+      return response.json().catch(function(){ return {}; }).then(function(body){
+        return {ok:response.ok && body.ok, body:body};
+      });
+    }).then(function(result){
+      if (result.ok) {
+        form.reset();
+        clearErrors();
+        setStatus('Thank you. Your message is on its way.', 'success');
+        return;
+      }
+      var body = result.body || {};
+      if (body.errors && body.errors.length) {
+        body.errors.forEach(function(item){
+          if (fields.indexOf(item.field) !== -1) setError(item.field, item.message || 'Please check this field.');
+        });
+        var firstInvalid = form.querySelector('[aria-invalid="true"]');
+        if (firstInvalid) firstInvalid.focus();
+        setStatus(body.error || 'Please check the highlighted fields.', 'error');
+      } else {
+        setStatus(body.error || 'We could not send that just now. Email us directly at', 'error', true);
+      }
+    }).catch(function(){
+      setStatus('We could not connect just now. Email us directly at', 'error', true);
+    }).then(function(){
+      sending = false;
+      button.disabled = false;
+      button.textContent = 'Send inquiry';
+    });
+  });
+})();
+
+})();
+</script>
+</body>
+</html>

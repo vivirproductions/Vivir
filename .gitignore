@@ -21,6 +21,20 @@
 !/scripts/
 !/scripts/**
 
+# The generated variant document depends on these three approved source files.
+# Keep every other prototype ignored, including retired color directions.
+!/prototypes/
+/prototypes/*
+!/prototypes/film-v1-ochre/
+/prototypes/film-v1-ochre/*
+!/prototypes/film-v1-ochre/index.src.html
+!/prototypes/film-v2-sanctuary/
+/prototypes/film-v2-sanctuary/*
+!/prototypes/film-v2-sanctuary/index.src.html
+!/prototypes/film-v4-blue/
+/prototypes/film-v4-blue/*
+!/prototypes/film-v4-blue/index.src.html
+
 /node_modules/
 /.next/
 /out/

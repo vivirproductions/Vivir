@@ -171,7 +171,7 @@ test("subject is optional and falls back to a default", async () => {
 
   expect(response.status).toBe(200);
   expect(sentMail).toHaveLength(1);
-  expect(sentMail[0].subject).toBe("[Vivir Inquiry] Website inquiry");
+  expect(sentMail[0].subject).toBe("[Vivír Inquiry] Website inquiry");
 });
 
 // --------------------------------------------------------------------------
@@ -216,6 +216,9 @@ test("400 when the message exceeds 4000 characters", async () => {
 
   expect(response.status).toBe(400);
   expect(data.field).toBe("message");
+  expect(data.error).toBe(
+    "Your message is too long. Please keep it to 4000 characters or fewer.",
+  );
   expect(sentMail).toHaveLength(0);
 });
 
@@ -231,6 +234,9 @@ test("400 when the name exceeds 120 characters", async () => {
 
   expect(response.status).toBe(400);
   expect(data.field).toBe("name");
+  expect(data.error).toBe(
+    "Your name is too long. Please keep it to 120 characters or fewer.",
+  );
   expect(sentMail).toHaveLength(0);
 });
 
@@ -240,6 +246,9 @@ test("400 when the subject exceeds 160 characters", async () => {
 
   expect(response.status).toBe(400);
   expect(data.field).toBe("subject");
+  expect(data.error).toBe(
+    "Your subject is too long. Please keep it to 160 characters or fewer.",
+  );
   expect(sentMail).toHaveLength(0);
 });
 
@@ -250,6 +259,9 @@ test("400 when the email exceeds 254 characters", async () => {
 
   expect(response.status).toBe(400);
   expect(data.field).toBe("email");
+  expect(data.error).toBe(
+    "That email address is too long. Please keep it to 254 characters or fewer.",
+  );
   expect(sentMail).toHaveLength(0);
 });
 
@@ -395,9 +407,9 @@ test("sends to INQUIRY_TO, from GMAIL_USER, replying to the submitter", async ()
 
   const mail = sentMail[0];
   expect(mail.to).toBe(INQUIRY_TO);
-  expect(mail.from).toEqual({ name: "Vivir Website", address: FAKE_USER });
+  expect(mail.from).toEqual({ name: "Vivír Website", address: FAKE_USER });
   expect(mail.replyTo).toEqual({ name: VALID.name, address: VALID.email });
-  expect(mail.subject).toBe(`[Vivir Inquiry] ${VALID.subject}`);
+  expect(mail.subject).toBe(`[Vivír Inquiry] ${VALID.subject}`);
 
   const text = String(mail.text);
   expect(text).toContain(VALID.name);
@@ -491,7 +503,9 @@ test("a native form post from a browser gets an HTML page, not raw JSON", async 
 
   expect(response.status).toBe(200);
   expect(response.headers.get("content-type")).toContain("text/html");
-  expect(await response.text()).toContain("<!doctype html>");
+  const html = await response.text();
+  expect(html).toContain("<!doctype html>");
+  expect(html).toContain("<title>Thank you - Vivír</title>");
   expect(sentMail).toHaveLength(1);
 });
 
@@ -502,7 +516,11 @@ test("a native form post that fails validation gets an HTML page with the reason
 
   expect(response.status).toBe(400);
   expect(response.headers.get("content-type")).toContain("text/html");
-  expect(await response.text()).toContain("does not look right");
+  const html = await response.text();
+  expect(html).toContain(
+    "That email address does not look right. Please check it, for example name@example.com.",
+  );
+  expect(html).toContain("<title>Check your details - Vivír</title>");
   expect(sentMail).toHaveLength(0);
 });
 

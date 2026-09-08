@@ -21,9 +21,9 @@ const SMTP_PORT = 465;
 /** Matches the 15 s timeout the Flask `/contact` route passes to SMTP_SSL. */
 const SMTP_TIMEOUT_MS = 15_000;
 
-const SUBJECT_PREFIX = "[Vivir Inquiry]";
+const SUBJECT_PREFIX = "[Vivír Inquiry]";
 const DEFAULT_SUBJECT = "Website inquiry";
-const FROM_NAME = "Vivir Website";
+const FROM_NAME = "Vivír Website";
 
 const MAX = {
   name: 120,
@@ -117,7 +117,7 @@ function validate(fields: Fields): FieldError[] {
   } else if (fields.name.length > MAX.name) {
     errors.push({
       field: "name",
-      message: `Your name is too long — please keep it to ${MAX.name} characters or fewer.`,
+      message: `Your name is too long. Please keep it to ${MAX.name} characters or fewer.`,
     });
   }
 
@@ -126,19 +126,19 @@ function validate(fields: Fields): FieldError[] {
   } else if (fields.email.length > MAX.email) {
     errors.push({
       field: "email",
-      message: `That email address is too long — please keep it to ${MAX.email} characters or fewer.`,
+      message: `That email address is too long. Please keep it to ${MAX.email} characters or fewer.`,
     });
   } else if (!EMAIL_SHAPE.test(fields.email)) {
     errors.push({
       field: "email",
-      message: "That email address does not look right — please check it, for example name@example.com.",
+      message: "That email address does not look right. Please check it, for example name@example.com.",
     });
   }
 
   if (fields.subject.length > MAX.subject) {
     errors.push({
       field: "subject",
-      message: `Your subject is too long — please keep it to ${MAX.subject} characters or fewer.`,
+      message: `Your subject is too long. Please keep it to ${MAX.subject} characters or fewer.`,
     });
   }
 
@@ -147,7 +147,7 @@ function validate(fields: Fields): FieldError[] {
   } else if (fields.message.length > MAX.message) {
     errors.push({
       field: "message",
-      message: `Your message is too long — please keep it to ${MAX.message} characters or fewer.`,
+      message: `Your message is too long. Please keep it to ${MAX.message} characters or fewer.`,
     });
   }
 
@@ -156,7 +156,7 @@ function validate(fields: Fields): FieldError[] {
 
 function buildBody(fields: Fields, subject: string): string {
   return [
-    "New inquiry from the Vivir website.",
+    "New inquiry from the Vivír website.",
     "",
     `Name:    ${fields.name}`,
     `Email:   ${fields.email}`,
@@ -188,7 +188,7 @@ function htmlResponse(status: number, heading: string, detail: string): Response
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${heading} — Vivir</title>
+<title>${heading} - Vivír</title>
 <style>
   :root { color-scheme: dark; }
   body { margin:0; min-height:100vh; display:grid; place-items:center;
@@ -204,7 +204,7 @@ function htmlResponse(status: number, heading: string, detail: string): Response
 <main>
 <h1>${heading}</h1>
 <p>${detail}</p>
-<p><a href="/">Back to Vivir</a></p>
+<p><a href="/">Back to Vivír</a></p>
 </main>
 </body>
 </html>`;

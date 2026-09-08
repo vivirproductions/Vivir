@@ -5,10 +5,10 @@ import { variantBySlug } from "@/variants/registry";
 const variant = variantBySlug["v4-blue"];
 
 export const metadata: Metadata = {
-  title: variant.title,
-  description: variant.description,
+  title: `${variant.name} Film archive`,
+  description: `Vivír ${variant.name} film archive.`,
 };
 
-export default function V4BluePage() {
-  return <VariantDocument slug="v4-blue" page="landing" />;
+export default function V4BlueFilmsPage() {
+  return <VariantDocument slug="v4-blue" page="films" />;
 }

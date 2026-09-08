@@ -17,12 +17,23 @@ const sources = [
   ["v4-blue", "prototypes/film-v4-blue/index.src.html"],
 ];
 
+const pages = ["landing", "films", "studio"];
+
 function requiredMatch(text, pattern, label, sourcePath) {
   const match = text.match(pattern);
   if (!match) {
     throw new Error(`Could not find ${label} in ${sourcePath}`);
   }
   return match[1];
+}
+
+function requiredBlock(text, name, sourcePath) {
+  return requiredMatch(
+    text,
+    new RegExp(`<!-- split:${name}:start -->([\\s\\S]*?)<!-- split:${name}:end -->`),
+    `split ${name} block`,
+    sourcePath,
+  );
 }
 
 function stripHtmlComments(text) {
@@ -49,30 +60,56 @@ function replaceAssets(text) {
   });
 }
 
+function routeMarkup(text, slug, page) {
+  const base = `/${slug}`;
+  const currentPage = new RegExp(`(<a\\b[^>]*\\bdata-page="${page}"[^>]*)(>)`, "g");
+
+  return text
+    .replaceAll('href="index.html#top"', `href="${base}"`)
+    .replaceAll('href="index.html#work"', `href="${base}#work"`)
+    .replaceAll('href="films.html#', `href="${base}/films#`)
+    .replaceAll('href="films.html"', `href="${base}/films"`)
+    .replaceAll('href="studio.html"', `href="${base}/studio"`)
+    .replace(currentPage, '$1 aria-current="page"$2');
+}
+
 const documents = Object.fromEntries(
   sources.map(([slug, relativePath]) => {
     const sourcePath = path.join(root, relativePath);
     const html = fs.readFileSync(sourcePath, "utf8");
     const css = requiredMatch(html, /<style>([\s\S]*?)<\/style>/, "style block", relativePath);
-    const body = requiredMatch(html, /<body[^>]*>([\s\S]*?)<script>/, "body block", relativePath);
     const script = requiredMatch(html, /<script>([\s\S]*?)<\/script>\s*<\/body>/, "script block", relativePath);
+    const shared = {
+      header: requiredBlock(html, "header", relativePath),
+      landing: requiredBlock(html, "landing", relativePath),
+      films: requiredBlock(html, "films", relativePath),
+      studio: requiredBlock(html, "studio", relativePath),
+      lightbox: requiredBlock(html, "lightbox", relativePath),
+      footer: requiredBlock(html, "footer", relativePath),
+    };
+    const bodyByPage = Object.fromEntries(
+      pages.map((page) => {
+        const body = shared.header + shared[page] + (page === "films" ? shared.lightbox : "") + shared.footer;
+        return [page, replaceAssets(stripHtmlComments(routeMarkup(body, slug, page))).trim()];
+      }),
+    );
 
     return [
       slug,
       {
         css: replaceAssets(stripCssComments(css)).trim(),
-        body: replaceAssets(stripHtmlComments(body)).trim(),
+        bodyByPage,
         script: stripJsComments(script).trim(),
       },
     ];
   }),
 );
 
-const output = `import type { VariantSlug } from "@/variants/registry";
+const output = `import type { VariantPage, VariantSlug } from "@/variants/registry";
 
 type VariantDocumentSource = {
   css: string;
-  body: string;
+  bodyByPage: Record<VariantPage, string>;
   script: string;
 };
 
