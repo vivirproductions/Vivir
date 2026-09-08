@@ -23,8 +23,12 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/* Archivo, weights 200/300/400 only - matches the film-v* pages exactly. Loaded
+            once here rather than per-page: extract-variants.mjs only captures each
+            prototype's <style> and body content, not its own <head> <link> tags, so
+            without this the variant routes silently fall back to system-ui. */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400&display=swap"
           rel="stylesheet"
         />
       </head>

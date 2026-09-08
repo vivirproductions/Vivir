@@ -1,10 +1,17 @@
 :root {
   color-scheme: dark;
-  --review-ink: #08090a;
+  /* Exact values from the film-v* pages' own :root (--ink/--bone/--grey), not a close
+     approximation - a reviewer flipping between this selector and a variant page should
+     never see two different near-black or two different bone whites. */
+  --review-ink: #0b0b0c;
   --review-paper: #f4f1ea;
-  --review-muted: #9a958c;
+  --review-muted: #8a857c;
   --review-line: rgba(244, 241, 234, 0.16);
-  --review-panel: #111316;
+  --review-panel: #1c1b19;
+  /* This page previews all three directions before one is chosen, so it commits to none
+     of their accents. Bone-on-ink at reduced opacity reads as "neutral UI", not as a
+     fourth, uninvited color. */
+  --accent: var(--review-paper);
 }
 
 *,
@@ -21,7 +28,8 @@ body {
   margin: 0;
   background: var(--review-ink);
   color: var(--review-paper);
-  font: 400 16px/1.5 Georgia, "Times New Roman", serif;
+  font: 400 16px/1.5 "Archivo", "Archivo Fallback", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 a {
@@ -50,8 +58,8 @@ a {
 .review-home__kicker {
   margin: 0 0 10px;
   color: var(--review-muted);
-  font: 700 12px/1.2 Arial, Helvetica, sans-serif;
-  letter-spacing: 0;
+  font: 400 11px/1.2 "Archivo", "Archivo Fallback", system-ui, sans-serif;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
 }
 
@@ -60,8 +68,8 @@ a {
   margin: 0;
   font-size: clamp(40px, 7vw, 92px);
   line-height: 0.95;
-  letter-spacing: 0;
-  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-weight: 200;
 }
 
 .review-home__grid {
@@ -101,8 +109,8 @@ a {
 
 .review-card__version {
   color: var(--review-muted);
-  font: 700 12px/1.2 Arial, Helvetica, sans-serif;
-  letter-spacing: 0;
+  font: 400 11px/1.2 "Archivo", "Archivo Fallback", system-ui, sans-serif;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
 }
 
@@ -110,8 +118,8 @@ a {
   margin: 0;
   font-size: clamp(28px, 4vw, 44px);
   line-height: 1;
-  letter-spacing: 0;
-  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-weight: 200;
 }
 
 .review-card__palette {
@@ -128,8 +136,8 @@ a {
 
 .review-card__open {
   color: var(--accent);
-  font: 700 13px/1 Arial, Helvetica, sans-serif;
-  letter-spacing: 0;
+  font: 400 12px/1 "Archivo", "Archivo Fallback", system-ui, sans-serif;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -156,8 +164,8 @@ a {
   padding: 0 13px;
   color: inherit;
   text-decoration: none;
-  font: 700 12px/1 Arial, Helvetica, sans-serif;
-  letter-spacing: 0;
+  font: 400 11px/1 "Archivo", "Archivo Fallback", system-ui, sans-serif;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -188,7 +196,7 @@ a {
   margin: 0 0 12px;
   font-size: clamp(40px, 8vw, 88px);
   line-height: 1;
-  font-weight: 400;
+  font-weight: 200;
 }
 
 .not-found a {
