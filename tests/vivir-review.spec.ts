@@ -78,6 +78,8 @@ for (const route of approvedRoutes) {
     await expect(page.locator(".hero__title")).toHaveText("Jesus Reigns 2023 - Vivír");
     await expect(page.locator(".hero__contact")).toHaveText("Contact us");
     await expect(page.locator(".hero__contact")).toHaveAttribute("href", "#contact");
+    await expect(page.locator(".index__head .lbl")).toHaveText("Selected work");
+    await expect(page.locator(".foot__legal small")).toHaveText("© Vivír. All rights reserved.");
     await expect(page.locator(".films, .studio, #lightbox")).toHaveCount(0);
     await expect(page.locator(".film")).toHaveCount(0);
     await expect(page.locator("form#inquiry")).toBeVisible();
