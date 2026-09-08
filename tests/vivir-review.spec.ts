@@ -80,6 +80,7 @@ for (const route of approvedRoutes) {
     await expect(page.locator(".films, .studio, #lightbox")).toHaveCount(0);
     await expect(page.locator(".film")).toHaveCount(0);
     await expect(page.locator("form#inquiry")).toBeVisible();
+    await expect(page.locator(".foot__title")).toHaveText("You have a testimony? Let’s talk.");
     await expect(page.locator(".vivir-review-switcher")).toHaveAttribute("aria-label", "Vivír color palettes");
     await expect(page.locator(".vivir-review-switcher a")).toHaveText(["All", "Ochre", "Sanctuary", "Blue"]);
     await expect(page.locator(".vivir-review-switcher a[aria-current='page']")).toHaveCount(1);
