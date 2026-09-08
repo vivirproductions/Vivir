@@ -18,14 +18,21 @@ const workTargets = [
   "#film-teaser",
 ] as const;
 
-const professionalFilmTitles = [
-  ["film-dinagyang", "Dinagyang Same-Day Edit"],
-  ["film-engineering-summit", "Engineering Summit Same-Day Edit"],
-  ["film-iloilo-city", "Iloilo City Demo Reel"],
-  ["film-advocacy", "Advocacy Film"],
-  ["film-talents-night", "Talents Night Highlights"],
-  ["film-pre-wedding", "Pre-Wedding Film"],
-  ["film-teaser", "Event Teaser"],
+const archiveTitles = [
+  "Dinagyang 2024: Same-Day Edit",
+  "Philippine Engineering Summit 2023: Same-Day Edit",
+  "Jesus Reigns 2023: Same-Day Edit",
+  "Miss Iloilo 2024 Coronation Night: Same-Day Edit",
+  "Lin-ay Sang Iloilo (Taryna): Advocacy Video",
+  "Demo Reel V02",
+  "Miss World: Advocacy Film",
+  "Miss Iloilo (Rona Mae): Advocacy Video",
+  "Mr. & Ms. West Talents Night: Highlights",
+  "The Pre-Wedding of Kelly & Prince",
+  "Gail: Debut Teaser",
+  "Iloilo Dinagyang Countdown: Reel",
+  "Mr. & Ms. West 2024: Teaser",
+  "Aesthetic Authority × Miss Iloilo 2023: Teaser Ad",
 ] as const;
 
 const filterCounts = {
@@ -141,11 +148,9 @@ for (const route of approvedRoutes) {
   }
 }
 
-test("Film archive uses professional project titles", async ({ page }) => {
+test("Film archive uses the organized source-video titles", async ({ page }) => {
   await page.goto("/v1-ochre/films");
-  for (const [id, title] of professionalFilmTitles) {
-    await expect(page.locator(`#${id} .film__cap`)).toHaveText(title);
-  }
+  await expect(page.locator(".films .film .film__cap")).toHaveText(archiveTitles);
 });
 
 test("Film archive filters hide unmatched tiles and All restores the archive", async ({ page }) => {
