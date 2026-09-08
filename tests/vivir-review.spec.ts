@@ -13,7 +13,6 @@ const workTargets = [
   "#film-engineering-summit",
   "#film-city-celebration",
   "#film-advocacy",
-  "#film-pre-wedding",
   "#film-talents-night",
   "#film-teaser",
 ] as const;
@@ -28,7 +27,6 @@ const archiveTitles = [
   "Miss World: Advocacy Film",
   "Miss Iloilo (Rona Mae): Advocacy Video",
   "Mr. & Ms. West Talents Night: Highlights",
-  "The Pre-Wedding of Kelly & Prince",
   "Gail: Debut Teaser",
   "Iloilo Dinagyang Countdown: Reel",
   "Mr. & Ms. West 2024: Teaser",
@@ -36,11 +34,10 @@ const archiveTitles = [
 ] as const;
 
 const filterCounts = {
-  all: 14,
+  all: 13,
   corporate: 4,
   tourism: 4,
   highlights: 1,
-  prewedding: 1,
   predebut: 1,
   reels: 1,
   teasers: 1,
