@@ -5,8 +5,8 @@ import { variantBySlug } from "@/variants/registry";
 const variant = variantBySlug["v2-sanctuary"];
 
 export const metadata: Metadata = {
-  title: "Vivír · Studios",
-  description: `Vivír ${variant.name} studio page.`,
+  title: "Vivír · Our Testimony",
+  description: `Vivír ${variant.name} about page.`,
 };
 
 export default function V2SanctuaryStudioPage() {

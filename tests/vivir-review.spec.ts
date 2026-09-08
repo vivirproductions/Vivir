@@ -109,12 +109,14 @@ for (const route of approvedRoutes) {
     await expect(page.locator("form#inquiry")).toBeVisible();
   });
 
-  test(`${route.path}/studio is a dedicated Studio page`, async ({ page }) => {
+  test(`${route.path}/studio is the Our Testimony about page`, async ({ page }) => {
     const response = await page.goto(`${route.path}/studio`);
     expect(response?.status()).toBe(200);
-    await expect(page).toHaveTitle("Vivír · Studios");
+    await expect(page).toHaveTitle("Vivír · Our Testimony");
     await expect(page.locator("main#main[data-page='studio']")).toBeVisible();
     await expect(page.locator(".studio")).toBeVisible();
+    await expect(page.locator("nav a[data-page='studio']")).toHaveText("Our Testimony");
+    await expect(page.locator(".studio__h")).toHaveText("Our Testimony");
     await expect(page.locator(".hero, .index, .films, #lightbox")).toHaveCount(0);
     await expect(page.locator("nav a[data-page='studio']")).toHaveAttribute("aria-current", "page");
     await expect(page.locator("form#inquiry")).toBeVisible();
@@ -234,7 +236,7 @@ test("direct Film links preserve the fragment target, focus it, and keep a pendi
   await expect(page.locator("#lightbox")).toHaveAttribute("aria-hidden", "true");
 });
 
-test("Studio Contact CTA reaches the dedicated page footer form", async ({ page }) => {
+test("Our Testimony Contact CTA reaches the dedicated page footer form", async ({ page }) => {
   await page.goto("/v2-sanctuary/studio");
   await page.locator(".studio__contact").click();
   await expect(page).toHaveURL(/\/v2-sanctuary\/studio#contact$/);
@@ -341,7 +343,7 @@ test("unregistered routes are 404", async ({ page }) => {
   }
 });
 
-test("reduced motion keeps the dedicated Studio page readable", async ({ browser }) => {
+test("reduced motion keeps the Our Testimony page readable", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 375, height: 812 } });
   const page = await context.newPage();
   await page.goto("/v4-blue/studio");
