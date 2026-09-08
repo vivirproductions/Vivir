@@ -83,6 +83,9 @@ for (const route of approvedRoutes) {
     await expect(page.locator(".films, .studio, #lightbox")).toHaveCount(0);
     await expect(page.locator(".film")).toHaveCount(0);
     await expect(page.locator("form#inquiry")).toBeVisible();
+    await expect(page.locator("form#inquiry input[name='website']")).toHaveCount(1);
+    await expect(page.locator("form#inquiry input[name='website']")).toHaveAttribute("autocomplete", "off");
+    await expect(page.locator("form#inquiry input[name='website']")).toHaveAttribute("data-bwignore", "true");
     await expect(page.locator(".foot__title")).toHaveText("You have a testimony? Let’s talk.");
     await expect(page.locator(".vivir-review-switcher")).toHaveAttribute("aria-label", "Vivír color palettes");
     await expect(page.locator(".vivir-review-switcher a")).toHaveText(["All", "Ochre", "Sanctuary", "Blue"]);
@@ -341,6 +344,32 @@ test("contact form offers direct email when the service is unavailable", async (
   await expect(page.locator("#inquiry-status a[href='mailto:vivir.production@gmail.com']")).toHaveCount(1);
   await expect(page.locator("#inquiry-status a[href='mailto:vivir.production@gmail.com']")).toBeVisible();
   await expect(form.getByLabel("Message *")).toHaveValue("This value must remain after a service failure.");
+});
+
+test("contact form keeps a human's message when the honeypot is unexpectedly filled", async ({ page }) => {
+  await page.route("**/api/inquiry", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        ok: false,
+        error: "We could not send that just now. Please email vivir.production@gmail.com directly.",
+      }),
+    }),
+  );
+  await page.goto("/v1-ochre#contact");
+  const form = page.locator("form#inquiry");
+  await form.getByLabel("Name *").fill("Test Sender");
+  await form.getByLabel("Email *").fill("sender@example.com");
+  await form.getByLabel("Message *").fill("This message must not be discarded.");
+  await form.locator("input[name='website']").evaluate((input) => {
+    (input as HTMLInputElement).value = "https://autofill.example";
+  });
+  await form.getByRole("button", { name: "Send inquiry" }).click();
+  await expect(page.locator("#inquiry-status")).toHaveText(
+    "We could not send that just now. Please email us directly. vivir.production@gmail.com",
+  );
+  await expect(form.getByLabel("Message *")).toHaveValue("This message must not be discarded.");
 });
 
 test("footer content clears the fixed review switcher", async ({ page }) => {

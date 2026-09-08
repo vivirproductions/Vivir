@@ -45,7 +45,7 @@ type Fields = {
   subject: string;
   message: string;
   /** Honeypot. A real person never sees this input, so it must arrive empty. */
-  company: string;
+  website: string;
 };
 
 type FieldError = { field: string; message: string };
@@ -66,7 +66,7 @@ function collect(source: Record<string, unknown>): Fields {
     email: readString(source, "email"),
     subject: readString(source, "subject"),
     message: readString(source, "message"),
-    company: readString(source, "company"),
+    website: readString(source, "website"),
   };
 }
 
@@ -252,12 +252,14 @@ export async function POST(request: Request): Promise<Response> {
       : json(400, { ok: false, error: message });
   }
 
-  // Honeypot. Answered before anything else so a bot learns nothing from the
-  // shape of the response, and nothing is sent.
-  if (fields.company) {
+  // Honeypot. Keep the normal HTTP status so basic bots do not get an oracle,
+  // but never claim delivery. An autofilled human must keep their message and
+  // receive the same safe direct-email fallback as a transport failure.
+  if (fields.website) {
+    const message = "We could not send that just now. Please email " + INQUIRY_TO + " directly.";
     return html
-      ? htmlResponse(200, "Thank you", "Your message is on its way.")
-      : json(200, { ok: true });
+      ? htmlResponse(200, "Message not sent", message)
+      : json(200, { ok: false, error: message });
   }
 
   const errors = validate(fields);

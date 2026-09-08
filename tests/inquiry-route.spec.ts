@@ -269,28 +269,29 @@ test("400 when the email exceeds 254 characters", async () => {
 // honeypot
 // --------------------------------------------------------------------------
 
-test("a filled honeypot returns 200 ok and sends nothing", async () => {
-  const response = await POST(jsonRequest({ ...VALID, company: "Acme Bots Ltd" }));
+test("a filled honeypot returns a generic no-send response and sends nothing", async () => {
+  const response = await POST(jsonRequest({ ...VALID, website: "https://bot.example" }));
   const data = await payload(response);
 
   expect(response.status).toBe(200);
-  expect(data.ok).toBe(true);
+  expect(data.ok).toBe(false);
+  expect(data.error).toBe("We could not send that just now. Please email vivir.production@gmail.com directly.");
   expect(sentMail).toHaveLength(0);
   expect(transportOptions).toHaveLength(0);
 });
 
-test("a filled honeypot short-circuits before validation, so a bot learns nothing", async () => {
-  const response = await POST(jsonRequest({ company: "bot", email: "not-an-email" }));
+test("a filled honeypot short-circuits before validation and preserves the generic failure shape", async () => {
+  const response = await POST(jsonRequest({ website: "https://bot.example", email: "not-an-email" }));
   const data = await payload(response);
 
   expect(response.status).toBe(200);
-  expect(data.ok).toBe(true);
+  expect(data.ok).toBe(false);
   expect(data.field).toBeUndefined();
   expect(sentMail).toHaveLength(0);
 });
 
 test("an empty honeypot does not block a real submission", async () => {
-  const response = await POST(jsonRequest({ ...VALID, company: "" }));
+  const response = await POST(jsonRequest({ ...VALID, website: "" }));
   expect(response.status).toBe(200);
   expect(sentMail).toHaveLength(1);
 });
@@ -376,7 +377,7 @@ test("a urlencoded body is validated the same as a JSON body", async () => {
 });
 
 test("a urlencoded honeypot is caught the same as a JSON one", async () => {
-  const response = await POST(formRequest({ ...VALID, company: "bot" }));
+  const response = await POST(formRequest({ ...VALID, website: "https://bot.example" }));
 
   expect(response.status).toBe(200);
   expect(sentMail).toHaveLength(0);
