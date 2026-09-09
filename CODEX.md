@@ -106,6 +106,11 @@ pulled straight from the client's raw footage and legibly showed a competing bra
 event year, and identifiable people, before an independent review caught it. The footage itself
 is authorised to use; naming or branding within it is not.
 
+**Narrow publication exception:** Hanz supplied and approved Vivír's own 2016–2026 studio-origin
+testimony for the public **Our Testimony** About page, including the first names Romeo and CJ.
+This approval applies only to that studio narrative. It does not clear third-party names,
+churches, clients, event identities, or individual testimony materials elsewhere on the site.
+
 Rules, concretely:
 - No real person's, couple's, client's, church's or ministry's name anywhere, visible or in a
   source comment.

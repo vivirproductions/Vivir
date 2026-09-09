@@ -6,7 +6,7 @@ const variant = variantBySlug["v2-sanctuary"];
 
 export const metadata: Metadata = {
   title: "Vivír · Our Testimony",
-  description: `Vivír ${variant.name} testimony placeholders.`,
+  description: `Vivír ${variant.name} studio testimony.`,
 };
 
 export default function V2SanctuaryStudioPage() {

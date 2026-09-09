@@ -122,23 +122,11 @@ for (const route of approvedRoutes) {
     await expect(page.locator(".studio")).toBeVisible();
     await expect(page.locator("nav a[data-page='studio']")).toHaveText("Our Testimony");
     await expect(page.locator(".studio__h")).toHaveText("Our Testimony");
-    await expect(page.locator(".draft")).toHaveText(
-      "[DRAFT - no individual testimony has been cleared for publication]",
-    );
-    await expect(page.locator(".testimony__item")).toHaveCount(3);
-    await expect(page.locator(".testimony__slot")).toHaveText([
-      "[Testimony placeholder 01]",
-      "[Testimony placeholder 02]",
-      "[Testimony placeholder 03]",
-    ]);
-    await expect(page.locator(".testimony__placeholder")).toHaveText([
-      "[Name, written story, and publication consent - to be confirmed]",
-      "[Name, written story, and publication consent - to be confirmed]",
-      "[Name, written story, and publication consent - to be confirmed]",
-    ]);
-    await expect(page.locator(".testimony__notice")).toHaveText(
-      "No person, quote, church, or identifying detail is published in this preview.",
-    );
+    await expect(page.locator(".studio__eyebrow")).toHaveText("About Vivír");
+    await expect(page.locator(".testimony__chapter")).toHaveCount(7);
+    await expect(page.getByText(/Romeo and CJ/)).toBeVisible();
+    await expect(page.getByText(/Life is not merely something to be captured/)).toBeVisible();
+    await expect(page.locator(".draft, .testimony__placeholder, .testimony__notice")).toHaveCount(0);
     await expect(page.locator(".hero, .index, .films, #lightbox")).toHaveCount(0);
     await expect(page.locator("nav a[data-page='studio']")).toHaveAttribute("aria-current", "page");
     await expect(page.locator("form#inquiry")).toBeVisible();
