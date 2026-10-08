@@ -124,8 +124,8 @@
   /* Header ground while sticky. Dense rather than glassy: the film's bright frames
      smear through a lighter value and the bar stops reading as chrome. At .95 bone
      holds 7.6:1 and the .7-opacity nav 5.6:1 over the worst frame in the film. */
-  --chrome:rgba(11,11,12,.95);
-  --chrome:color-mix(in srgb, var(--ink) 95%, transparent);
+  --chrome:#0B0B0C;
+  --chrome:var(--ink);
 
   --sans:"Archivo","Archivo Fallback",system-ui,-apple-system,"Segoe UI",Roboto,
          "Helvetica Neue",Arial,sans-serif;
@@ -177,16 +177,16 @@ a{color:inherit}
 .js-views .view--studio{border-top:0}
 
 /* ══ HEADER. V mark LEFT, nav RIGHT. Never centred, never over the hero. ════════════ */
-header{position:sticky;top:0;z-index:40;background:var(--chrome);
+body > header{position:sticky;top:0;z-index:40;background:var(--chrome);
   -webkit-backdrop-filter:saturate(140%) blur(8px);backdrop-filter:saturate(140%) blur(8px);
   border-bottom:1px solid var(--rule)}
 .bar{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);
-  display:flex;align-items:center;justify-content:space-between;gap:18px;padding-block:15px}
+  display:flex;align-items:center;justify-content:space-between;gap:18px;padding-block:10px}
 /* The V MARK, never the wordmark. The wordmark mixes heavy strokes with 1px hairlines
    in the second I and the R; below 402 CSS px of rendered width they resample away and
    it silently reads VIV R. See CLAUDE.md > Traps. There is no honest place for the
    wordmark in this layout, so it does not appear at all. */
-.bar img{height:clamp(24px,2.6vw,30px);width:auto}
+.bar img{height:clamp(22px,2.2vw,26px);width:auto}
 /* The mark may never absorb a shortfall: as a bare flex item it squashes, and squashing
    is the brand book's "maintain framing" don't, failing the way the hairlines fail. */
 .bar>a{flex-shrink:0;display:block;line-height:0}
@@ -195,7 +195,7 @@ header{position:sticky;top:0;z-index:40;background:var(--chrome);
 nav{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:clamp(14px,3vw,34px)}
 nav a{font-weight:300;font-size:11px;line-height:1;letter-spacing:clamp(.16em,.5vw,.22em);
   text-transform:uppercase;white-space:nowrap;text-decoration:none;color:var(--bone);
-  padding-block:7px;opacity:.7;border-bottom:1px solid transparent;
+  padding-block:5px;opacity:.7;border-bottom:1px solid transparent;
   transition:opacity .25s,border-color .25s}
 nav a:hover,nav a:focus-visible{opacity:1}
 nav a[aria-current="page"]{opacity:1;border-bottom-color:var(--accent)}
@@ -243,12 +243,12 @@ nav a[aria-current="page"]{opacity:1;border-bottom-color:var(--accent)}
    label repeats information that the film and heading already carry, so it is deliberately
    absent here. The four real navigation links remain available in one compact line. */
 @media (max-width:680px){
-  .bar{min-height:64px;padding-block:13px;gap:10px}
+  .bar{min-height:56px;padding-block:9px;gap:10px}
   .bar .brand{gap:8px}
-  .bar img{height:24px}
+  .bar img{height:22px}
   .brand__name{font-size:11px;letter-spacing:.28em;margin-right:-.28em}
   nav{min-width:0;flex:1;flex-wrap:nowrap;justify-content:flex-end;gap:clamp(8px,2.4vw,12px);overflow:hidden}
-  nav a{flex:0 0 auto;padding-block:6px;font-size:9px;letter-spacing:.1em}
+  nav a{flex:0 0 auto;padding-block:5px;font-size:9px;letter-spacing:.1em}
 
   .hero{aspect-ratio:auto;min-height:clamp(410px,74svh,510px);max-height:none}
   .hero__ui{display:grid;grid-template-columns:1fr;align-items:end;gap:18px;padding-bottom:24px}
