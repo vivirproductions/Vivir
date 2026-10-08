@@ -419,48 +419,58 @@ a.film__still:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
 .lightbox__close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* ══ TESTIMONY VIEW. An editorial page, intentionally empty of real stories. ════════ */
-.studio{position:relative;padding-block:clamp(40px,7vw,104px) clamp(54px,9vw,132px)}
+/* ══ TESTIMONY VIEW. The approved studio-origin story, kept quiet and source-led. ═══ */
+.studio{position:relative;padding-block:clamp(42px,7vw,108px) clamp(58px,9vw,136px)}
 .testimony__rail{display:none}
-.studio__opening{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.62fr);gap:32px clamp(36px,8vw,140px);
-  padding-bottom:clamp(34px,5vw,68px);border-bottom:1px solid var(--rule)}
+.studio__opening{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.72fr);gap:34px clamp(38px,8vw,132px);
+  padding-bottom:clamp(36px,5.6vw,76px);border-bottom:1px solid var(--rule)}
 .studio__eyebrow{margin:0 0 16px;color:var(--accent);font-weight:300;font-size:11px;line-height:1;
   letter-spacing:.22em;text-transform:uppercase}
-.studio__h{max-width:10ch;margin:0;font-weight:200;font-size:clamp(48px,8.4vw,116px);line-height:.9;
+.studio__h{max-width:9ch;margin:0;font-weight:300;font-size:clamp(50px,8.2vw,112px);line-height:.92;
   letter-spacing:-.055em;text-wrap:balance}
-.studio__intro{align-self:end;max-width:34rem}
-.studio__lede{margin:0 0 20px;font-weight:300;font-size:clamp(18px,1.75vw,25px);line-height:1.34;letter-spacing:-.018em}
-.studio__body{max-width:960px;margin-top:clamp(40px,7vw,104px);margin-left:auto}
-.testimony__chapter{display:grid;grid-template-columns:minmax(108px,.23fr) minmax(0,1fr);gap:24px clamp(26px,5vw,76px);
-  padding-block:clamp(30px,4.6vw,58px);border-top:1px solid var(--rule)}
-.testimony__chapter:first-child{padding-top:0;border-top:0}
+.studio__intro{align-self:end;max-width:36rem}
+.studio__lede{margin:0 0 clamp(20px,3vw,32px);font-weight:300;font-size:clamp(19px,1.8vw,26px);line-height:1.34;letter-spacing:-.018em}
+.studio__thesis{display:grid;grid-template-columns:minmax(72px,.22fr) minmax(0,1fr);gap:18px clamp(18px,3vw,32px);
+  padding-top:clamp(18px,2.8vw,28px);border-top:1px solid var(--rule)}
+.studio__thesis dt{margin:0;color:var(--accent);font-weight:300;font-size:10px;line-height:1.4;
+  letter-spacing:.18em;text-transform:uppercase}
+.studio__thesis dd{margin:0;color:var(--bone);font-size:clamp(14px,1.18vw,17px);line-height:1.62}
+.studio__body{position:relative;max-width:1010px;margin-top:clamp(42px,7vw,108px);margin-left:auto}
+.studio__body:before{content:"";position:absolute;top:0;bottom:0;left:clamp(118px,16vw,188px);width:1px;background:var(--rule)}
+.testimony__chapter{position:relative;display:grid;grid-template-columns:minmax(118px,.25fr) minmax(0,1fr);gap:24px clamp(30px,5.4vw,84px);
+  padding-block:clamp(34px,5vw,64px)}
+.testimony__chapter:first-child{padding-top:0}
+.testimony__chapter:last-child{padding-bottom:0}
+.testimony__chapter:before{content:"";position:absolute;left:clamp(118px,16vw,188px);top:clamp(39px,5.7vw,70px);
+  width:9px;height:9px;transform:translateX(-4px);background:var(--accent)}
+.testimony__chapter:first-child:before{top:6px}
 .testimony__marker{margin:0;color:var(--grey);font-weight:300;font-size:10px;line-height:1.45;
   letter-spacing:.18em;text-transform:uppercase}
-.testimony__marker span{display:block;margin-bottom:8px;color:var(--accent);font-size:clamp(20px,2.2vw,32px);line-height:1;
+.testimony__marker span{display:block;margin-bottom:8px;color:var(--accent);font-size:clamp(21px,2.2vw,34px);line-height:1;
   letter-spacing:-.04em;font-variant-numeric:tabular-nums}
-.testimony__copy{max-width:42rem}
-.testimony__copy p{margin:0 0 1em;color:var(--bone);font-size:clamp(16px,1.25vw,18px);line-height:1.62}
+.testimony__copy{max-width:45rem}
+.testimony__copy h3{margin:0 0 clamp(12px,1.8vw,18px);font-weight:300;font-size:clamp(22px,2.8vw,40px);line-height:1.04;
+  letter-spacing:-.04em;text-wrap:balance}
+.testimony__copy p{margin:0 0 1em;color:var(--bone);font-size:clamp(16px,1.25vw,18px);line-height:1.66}
 .testimony__copy p:last-child{margin-bottom:0}
 .testimony__copy .testimony__prompt{margin-top:clamp(24px,3vw,34px);padding-top:14px;border-top:1px solid var(--rule);
   color:var(--grey);font-size:13px;line-height:1.55}
-.testimony__list{margin:clamp(28px,4vw,44px) 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
-.testimony__item{display:grid;grid-template-columns:minmax(124px,.34fr) minmax(0,1fr);gap:16px 28px;
-  padding:clamp(18px,2.2vw,24px) 0;border-bottom:1px solid var(--rule)}
-.testimony__slot{margin:0;color:var(--accent);font-weight:300;font-size:10px;line-height:1.45;
-  letter-spacing:.16em;text-transform:uppercase}
-.testimony__placeholder{margin:0;color:var(--bone);font-size:15.5px;line-height:1.6}
-.testimony__notice{margin:clamp(24px,3vw,34px) 0 0;max-width:45rem;color:var(--grey);font-size:13px;line-height:1.6}
+.testimony__closing{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin-top:clamp(26px,4vw,44px);
+  background:var(--rule);border:1px solid var(--rule)}
+.testimony__closing span{display:block;background:var(--ink);padding:14px 12px;color:var(--bone);
+  font-weight:300;font-size:10px;line-height:1;letter-spacing:.16em;text-transform:uppercase;text-align:center}
 @media (min-width:1100px){
   .testimony__rail{display:block;position:absolute;inset:clamp(40px,7vw,104px) auto 0 calc(var(--pad) * .6);width:1px;background:var(--rule)}
   .testimony__rail span{position:sticky;top:34vh;display:block;width:max-content;transform:translateX(-50%) rotate(180deg);
     color:var(--grey);font-weight:300;font-size:10px;line-height:1;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl}
 }
 @media (max-width:680px){
-  .studio__opening,.testimony__chapter{grid-template-columns:1fr;gap:18px}
+  .studio__opening,.testimony__chapter,.studio__thesis{grid-template-columns:1fr;gap:18px}
   .studio__h{max-width:8ch}
+  .studio__body:before,.testimony__chapter:before{display:none}
   .testimony__marker{display:flex;align-items:baseline;gap:10px}
   .testimony__marker span{margin:0}
-  .testimony__item{grid-template-columns:1fr;gap:8px}
+  .testimony__closing{grid-template-columns:1fr 1fr}
 }
 .studio__contact{display:inline-flex;align-items:center;justify-content:center;margin-top:clamp(24px,3vw,32px);
   min-height:38px;border:1px solid var(--accent);padding:0 14px;color:var(--bone);text-decoration:none;
@@ -797,60 +807,76 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
         <h2 class="studio__h">Our Testimony</h2>
       </div>
       <div class="studio__intro">
-        <p class="studio__lede">From two friends with a camera to a studio built around stories worth telling.</p>
+        <p class="studio__lede">It began with three friends, an old camera, and a lot of curiosity.</p>
+        <dl class="studio__thesis">
+          <dt>Vivir</dt>
+          <dd>To live: preserving the parts of life that can be held, heard, remembered, and stewarded with care.</dd>
+        </dl>
       </div>
     </header>
     <div class="studio__body">
       <section class="testimony__chapter" aria-labelledby="testimony-first-words">
-        <p class="testimony__marker"><span>01</span>2016–2018</p>
+        <p class="testimony__marker"><span>01</span>Old camera</p>
         <div class="testimony__copy">
-          <p id="testimony-first-words">Before there was a name, there was a digital camera, two high school friends, Romeo and CJ, and a curiosity to create. There was no brand or business, only friendship, creativity, and a desire to explore photography, video, and short films.</p>
-          <p class="testimony__prompt">Fun became passion.</p>
+          <h3 id="testimony-first-words">Creation came before the name.</h3>
+          <p>In 2018, three high school friends started taking pictures with an old 5-megapixel digital camera. There was no business plan, no studio, and no professional equipment. There was only the joy of noticing everyday life and learning how a moment could become a photograph.</p>
+          <p>Class short films taught them that a camera could do more than take a good picture. It could hold sequence, feeling, and story.</p>
+          <p class="testimony__prompt">That small beginning became TiNuGa Production: creation, made from what had been placed in their hands.</p>
         </div>
       </section>
       <section class="testimony__chapter" aria-labelledby="testimony-records">
-        <p class="testimony__marker"><span>02</span>2020</p>
+        <p class="testimony__marker"><span>02</span>First trust</p>
         <div class="testimony__copy">
-          <p id="testimony-records">Photography became a passion for composition, lighting, storytelling, and emotion. We learned that a camera could do more than document moments. It could preserve them and communicate meaning.</p>
-          <p>Our first major opportunity came when our school appointed us official photographers for its graduation. We invested in better equipment and committed fully to the project. It was our first professional engagement, and the moment we realised this passion could become something real.</p>
+          <h3 id="testimony-records">They put the first earnings back into the work.</h3>
+          <p>By their final year of high school, the three were trusted with graduation and moving-up pictures for fellow students. It was the first project that felt larger than a school activity, and the first real income from what they had been practicing.</p>
+          <p>They rented a better camera, acquired lights, bought a background, and kept building. More importantly, they saw the opportunity as a way to develop gifts they believed God had entrusted to them.</p>
         </div>
       </section>
       <section class="testimony__chapter" aria-labelledby="testimony-next">
-        <p class="testimony__marker"><span>03</span>2021–2022</p>
+        <p class="testimony__marker"><span>03</span>Tested passion</p>
         <div class="testimony__copy">
-          <p id="testimony-next">We took on more projects, documented celebrations and milestones, and eventually began filming weddings. Each project taught us that behind every photograph is a person, and behind every event is a story worth preserving.</p>
-          <p>After years of creating without a name, we finally gave our vision one.</p>
+          <h3 id="testimony-next">Distance did not end the calling.</h3>
+          <p>College took the friends in different directions, away from the same classroom and schedule. Still, they kept creating, kept learning, and kept using their cameras, including in their local church, where they documented services and the people gathered there.</p>
+          <p>Those years taught them that a camera could help make a living, but it could also be used to serve. The work became less about having the best equipment and more about being faithful with what was already in their hands.</p>
         </div>
       </section>
       <section class="testimony__chapter" aria-labelledby="testimony-vivir">
-        <p class="testimony__marker"><span>04</span>2022</p>
+        <p class="testimony__marker"><span>04</span>August 2023</p>
         <div class="testimony__copy">
-          <p id="testimony-vivir">We chose Vivír, to live. Photography and cinematography are about life: its celebrations, struggles, beauty, and unforgettable moments.</p>
-          <p>Vivír became more than a name. It became a reminder of why we create: to capture life as it is, tell stories as they are, and create images that help people see, feel, and remember what it means to live.</p>
-          <p class="testimony__prompt">We wanted the freedom to explore photography, films, weddings, events, portraits, and stories in every form.</p>
+          <h3 id="testimony-vivir">The answer was life.</h3>
+          <p>By August 2023, they had grown from students with an old camera into storytellers who understood that making something look good was only one part of the work. They began asking what they were really trying to preserve.</p>
+          <p>The answer became Vivir: to live. Photography could bring someone back to a particular day. Film could bring back a voice, a laugh, a movement, or the way someone looked at a person they loved.</p>
+          <p class="testimony__prompt">The name changed, but the reason they started did not.</p>
         </div>
       </section>
       <section class="testimony__chapter" aria-labelledby="testimony-name">
-        <p class="testimony__marker"><span>05</span>2023–2025</p>
+        <p class="testimony__marker"><span>05</span>More hands</p>
         <div class="testimony__copy">
-          <p id="testimony-name">Vivír grew into an independent creative studio serving weddings, events, celebrations, and visual projects. We learned that building a reputation requires more than quality equipment and beautiful images. It requires trust, reliability, understanding, and care.</p>
-          <p>Our skills, projects, equipment, and community grew, but our original curiosity remained: what story is worth telling?</p>
+          <h3 id="testimony-name">The vision was no longer carried by only three people.</h3>
+          <p>Along the way, two more people joined the journey. They shared the same creative passion and the same desire to use their gifts in service of God's Kingdom.</p>
+          <p>The connection was not only about cameras, editing, or production. It was about the conviction that creative work could be a profession without losing its sense of calling.</p>
         </div>
       </section>
       <section class="testimony__chapter" aria-labelledby="testimony-beyond">
-        <p class="testimony__marker"><span>06</span>2026</p>
+        <p class="testimony__marker"><span>06</span>Underneath</p>
         <div class="testimony__copy">
-          <p id="testimony-beyond">Today, Vivír is becoming a platform for meaningful storytelling. We want to explore not only what happens, but why it matters, especially through stories of hardship, faith, hope, loss, and perseverance.</p>
-          <p>Through cinematography, we aim to portray these journeys honestly and respectfully: the struggle, silence, prayers, setbacks, and small victories. Some of the most powerful testimonies come from people who have endured and can still say, “I am here.”</p>
-          <p>Vivír is moving from capturing moments to exploring their meaning. We want to create stories that remind people they are not alone, that hardship does not have the final word, and that beauty can exist within an unfinished story.</p>
+          <h3 id="testimony-beyond">The stories became bigger than the obvious moment.</h3>
+          <p>As the projects grew, Vivir became more interested in what lived beneath the final image: the family behind a celebration, the faith behind a decision, the struggle nobody saw before the victory everyone celebrated.</p>
+          <p>A finished picture can look effortless, but behind it may be years of waiting, sacrifice, prayer, failure, growth, and perseverance. Vivir wants to make room for those stories.</p>
         </div>
       </section>
       <section class="testimony__chapter" aria-labelledby="testimony-still">
-        <p class="testimony__marker"><span>07</span>Still creating</p>
+        <p class="testimony__marker"><span>07</span>Still living</p>
         <div class="testimony__copy">
-          <p id="testimony-still">Our equipment, skills, projects, team, and vision have grown. But our reason remains the same: moments are worth capturing, stories are worth telling, and ordinary lives can reveal extraordinary things.</p>
-          <p>Fun became passion. Passion became a profession. The profession became a purpose.</p>
-          <p class="testimony__prompt">Life is not merely something to be captured. It is something to be lived.</p>
+          <h3 id="testimony-still">The heart remains close to where it started.</h3>
+          <p>The camera changed. The skills grew. The projects became bigger. Two more people joined the journey. But the gift was never really just the camera. It was the opportunity to notice life, preserve it, serve people through it, and use what God had placed in their hands for something that could outlast a single moment.</p>
+          <p class="testimony__prompt">This is Vivir: born from creation, shaped by friendship, grounded in faith, driven by stories.</p>
+          <div class="testimony__closing" aria-label="Vivir testimony commitments">
+            <span>Still learning</span>
+            <span>Still creating</span>
+            <span>Still serving</span>
+            <span>Still living</span>
+          </div>
           <a class="studio__contact" href="#contact">Start a conversation</a>
         </div>
       </section>
