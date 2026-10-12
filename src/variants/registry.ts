@@ -1,5 +1,5 @@
 export type VariantSlug = "v1-ochre" | "v2-sanctuary" | "v4-blue";
-export type VariantPage = "landing" | "films" | "studio";
+export type VariantPage = "landing" | "films" | "packages" | "studio";
 
 export type Variant = {
   slug: VariantSlug;

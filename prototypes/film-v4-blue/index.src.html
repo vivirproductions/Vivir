@@ -176,6 +176,8 @@ a{color:inherit}
 .js-views .view--films{border-top:0}
 .view--studio{border-top:1px solid var(--rule)}
 .js-views .view--studio{border-top:0}
+.view--packages{border-top:1px solid var(--rule)}
+.js-views .view--packages{border-top:0}
 
 /* ══ HEADER. V mark LEFT, nav RIGHT. Never centred, never over the hero. ════════════ */
 body > header{position:sticky;top:0;z-index:40;background:var(--chrome);
@@ -420,6 +422,68 @@ a.film__still:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
 .lightbox__close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
+/* ══ PACKAGES VIEW. A pricing index, restrained to match the film pages rather than the
+   source Canva flyer. Same local Vivir stills, no new remote media dependency. ═════ */
+.view--packages{border-top:1px solid var(--rule)}
+.js-views .view--packages{border-top:0}
+.packages{padding-block:clamp(44px,7vw,104px) clamp(58px,9vw,132px)}
+.packages__hero{display:grid;grid-template-columns:minmax(0,.78fr) minmax(280px,.62fr);gap:28px clamp(38px,8vw,118px);
+  align-items:end;padding-bottom:clamp(30px,5vw,64px);border-bottom:1px solid var(--rule)}
+.packages__eyebrow{margin:0 0 15px;color:var(--accent);font-weight:300;font-size:11px;line-height:1;
+  letter-spacing:.22em;text-transform:uppercase}
+.packages__h{margin:0;max-width:11ch;font-weight:200;font-size:clamp(48px,8vw,108px);line-height:.9;
+  letter-spacing:-.055em;text-wrap:balance}
+.packages__lede{margin:0;color:var(--bone);font-weight:300;font-size:clamp(18px,1.75vw,25px);line-height:1.38;
+  letter-spacing:-.018em;text-wrap:balance}
+.packages__note{margin:clamp(16px,2vw,22px) 0 0;color:var(--grey);font-size:13px;line-height:1.65;max-width:43rem}
+.packages__strip{display:grid;grid-template-columns:1.1fr .74fr .56fr;gap:1px;margin-block:clamp(28px,4vw,52px);
+  background:var(--rule);border:1px solid var(--rule);min-height:clamp(180px,28vw,370px)}
+.packages__strip figure{position:relative;margin:0;overflow:hidden;background:var(--ink);min-height:180px}
+.packages__strip img{width:100%;height:100%;object-fit:cover;filter:saturate(.88) contrast(.94) brightness(.82)}
+.packages__strip figcaption{position:absolute;left:14px;bottom:12px;color:var(--bone);font-weight:300;font-size:10px;line-height:1;
+  letter-spacing:.18em;text-transform:uppercase;text-shadow:0 1px 18px var(--ink)}
+.packages__nav{display:flex;flex-wrap:wrap;gap:8px 10px;margin-bottom:clamp(30px,5vw,58px)}
+.packages__nav a{display:inline-flex;align-items:center;justify-content:center;min-height:34px;border:1px solid var(--rule);
+  padding:0 14px;color:var(--bone);text-decoration:none;font-weight:300;font-size:10px;line-height:1;
+  letter-spacing:.16em;text-transform:uppercase;transition:border-color .25s,color .25s,background-color .25s}
+.packages__nav a:hover,.packages__nav a:focus-visible{border-color:var(--accent);color:var(--accent)}
+.packages__set{scroll-margin-top:96px;margin-top:clamp(38px,6vw,76px)}
+.packages__set:first-of-type{margin-top:0}
+.packages__set-head{display:grid;grid-template-columns:minmax(0,.55fr) minmax(280px,.45fr);gap:18px clamp(28px,5vw,72px);
+  align-items:end;margin-bottom:clamp(18px,3vw,36px)}
+.packages__kicker{margin:0;color:var(--accent);font-weight:300;font-size:10px;line-height:1;letter-spacing:.2em;text-transform:uppercase}
+.packages__title{margin:8px 0 0;font-weight:300;font-size:clamp(28px,4vw,58px);line-height:.96;letter-spacing:-.035em}
+.packages__body{margin:0;color:var(--grey);font-size:14px;line-height:1.68;max-width:38rem}
+.package-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.package-card{display:grid;grid-template-rows:auto 1fr auto;background:var(--surface);min-height:100%;padding:clamp(18px,2.4vw,30px)}
+.package-card--wide{grid-column:1 / -1;grid-template-columns:minmax(0,.42fr) minmax(0,.58fr);gap:18px clamp(24px,4vw,60px);align-items:start}
+.package-card__head{display:grid;gap:9px;margin-bottom:clamp(16px,2vw,24px)}
+.package-card__type{margin:0;color:var(--grey);font-weight:300;font-size:10px;line-height:1;letter-spacing:.2em;text-transform:uppercase}
+.package-card__name{margin:0;font-weight:300;font-size:clamp(20px,2.2vw,34px);line-height:1.04;letter-spacing:-.03em;text-wrap:balance}
+.package-card__price{margin:0;color:var(--accent);font-weight:300;font-size:clamp(19px,2vw,30px);line-height:1;letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.package-card__items{list-style:none;margin:0;padding:0;display:grid;gap:9px;color:var(--bone);font-size:14px;line-height:1.45}
+.package-card__items li{position:relative;padding-left:16px}
+.package-card__items li:before{content:"";position:absolute;left:0;top:.72em;width:5px;height:1px;background:var(--accent)}
+.package-card__cta{justify-self:start;margin-top:clamp(20px,2.6vw,30px);color:var(--grey);font-weight:300;font-size:10px;line-height:1;
+  letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:7px}
+.package-card__cta:hover,.package-card__cta:focus-visible{color:var(--accent);border-bottom-color:var(--accent)}
+@media (max-width:820px){
+  .packages__hero,.packages__set-head{grid-template-columns:1fr;align-items:start}
+  .packages__h{max-width:9ch}
+  .packages__strip{grid-template-columns:1fr;min-height:0}
+  .packages__strip figure{min-height:clamp(148px,42vw,230px)}
+  .package-grid{grid-template-columns:1fr}
+  .package-card--wide{grid-column:auto;grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  .packages{padding-block:34px 82px}
+  .packages__h{font-size:clamp(44px,14vw,64px)}
+  .packages__nav{display:grid;grid-template-columns:1fr 1fr}
+  .packages__nav a{min-height:38px;padding-inline:8px;font-size:9px;letter-spacing:.13em}
+  .package-card{padding:20px 18px}
+  .package-card__items{font-size:13px}
+}
+
 /* ══ TESTIMONY VIEW. The approved studio-origin story, kept quiet and source-led. ═══ */
 .studio{position:relative;padding-block:clamp(42px,7vw,108px) clamp(58px,9vw,136px)}
 .testimony__rail{display:none}
@@ -555,6 +619,7 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
     <nav aria-label="Primary">
       <a href="index.html#work" data-page="landing">Work</a>
       <a href="films.html" data-page="films">Films</a>
+      <a href="packages.html" data-page="packages">Packages</a>
       <a href="studio.html" data-page="studio">Our Testimony</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -797,7 +862,112 @@ footer{background:var(--surface);border-top:1px solid var(--rule);
   </section>
 </main><!-- split:films:end -->
 
-<!-- ═══ VIEW 2 · STUDIO ═════════════════════════════════════════════════════════════ -->
+<!-- ═══ VIEW 2 · PACKAGES ═══════════════════════════════════════════════════════════ -->
+<!-- split:packages:start -->
+<main id="main" data-page="packages">
+  <section class="packages wrap" id="packages">
+    <header class="packages__hero">
+      <div>
+        <p class="packages__eyebrow">Wedding &amp; debut packages</p>
+        <h1 class="packages__h">Packages for a day that will not happen twice.</h1>
+      </div>
+      <div>
+        <p class="packages__lede">A quiet guide to Vivír's photo and video coverage, rewritten for the current site instead of the old package flyer.</p>
+        <p class="packages__note">Pricing and inclusions are presented as a starting point for inquiry. Final coverage, schedule, travel, and delivery details should be confirmed with Vivír before booking.</p>
+      </div>
+    </header>
+
+    <div class="packages__strip" aria-label="Vivir package imagery">
+      <figure>
+        <img src="/media/work/prewedding.jpg" width="1280" height="534" loading="eager" alt="Two people standing in tall grass under a bright sky, one holding an acoustic guitar.">
+        <figcaption>Pre-event session</figcaption>
+      </figure>
+      <figure>
+        <img src="/media/films/predebut-gail.jpg" width="1280" height="534" loading="lazy" alt="A silhouette turns through drifting stage fog, lit from behind.">
+        <figcaption>Debut film</figcaption>
+      </figure>
+      <figure>
+        <img src="/media/work/teaser.jpg" width="1280" height="534" loading="lazy" alt="Two people stand in tall grass under a bright sky, one holding an acoustic guitar.">
+        <figcaption>Teaser</figcaption>
+      </figure>
+    </div>
+
+    <nav class="packages__nav" aria-label="Package sections">
+      <a href="#wedding-packages">Wedding</a>
+      <a href="#debut-packages">Debut</a>
+      <a href="#video-packages">Video only</a>
+      <a href="#photo-packages">Photo only</a>
+    </nav>
+
+    <section class="packages__set" id="wedding-packages" aria-labelledby="wedding-packages-h">
+      <header class="packages__set-head">
+        <div>
+          <p class="packages__kicker">Wedding packages</p>
+          <h2 class="packages__title" id="wedding-packages-h">Photo and video coverage</h2>
+        </div>
+        <p class="packages__body">Coverage built around the full wedding day: photography, film coverage, highlight edits, and optional pre-wedding sessions.</p>
+      </header>
+      <div class="package-grid">
+        <article class="package-card">
+          <div class="package-card__head"><p class="package-card__type">Basic photo and video</p><h3 class="package-card__name">Essential wedding coverage</h3><p class="package-card__price">₱29,990</p></div>
+          <ul class="package-card__items"><li>Wedding photo coverage with 2 photographers</li><li>Soft copy of edited photos</li><li>Wedding video coverage with 2 videographers</li><li>5-minute wedding video highlights</li><li>Flash drive for photo and video</li></ul>
+          <a class="package-card__cta" href="#contact">Ask about this package</a>
+        </article>
+        <article class="package-card">
+          <div class="package-card__head"><p class="package-card__type">Standard photo and video</p><h3 class="package-card__name">Longer highlights with slideshow</h3><p class="package-card__price">₱38,990</p></div>
+          <ul class="package-card__items"><li>Wedding photo coverage with 2 photographers</li><li>3-4 minute photo slideshow</li><li>Soft copy of edited photos</li><li>Wedding video coverage with 3 videographers</li><li>6-8 minute wedding video highlights</li><li>Flash drive for photo and video</li></ul>
+          <a class="package-card__cta" href="#contact">Ask about this package</a>
+        </article>
+        <article class="package-card package-card--wide">
+          <div class="package-card__head"><p class="package-card__type">Premium photo and video</p><h3 class="package-card__name">With same-day edit and pre-wedding session</h3><p class="package-card__price">₱64,990</p></div>
+          <ul class="package-card__items"><li>Wedding photo coverage with 2 photographers</li><li>3-4 minute photo slideshow and 30-page flat lay album</li><li>Wedding video coverage with 3 videographers and 1 same-day video editor</li><li>4-5 minute same-day edit and 10-minute wedding highlights</li><li>Pre-wedding photo session with edited photo and slideshow</li><li>Pre-wedding video session with 3-5 minute video</li><li>Flash drive for photo and video</li></ul>
+          <a class="package-card__cta" href="#contact">Ask about this package</a>
+        </article>
+        <article class="package-card package-card--wide">
+          <div class="package-card__head"><p class="package-card__type">Deluxe photo and video</p><h3 class="package-card__name">Full wedding story package</h3><p class="package-card__price">₱90,990</p></div>
+          <ul class="package-card__items"><li>Wedding photo coverage with 2 photographers and 1 same-day photo editor</li><li>3-4 minute same-day edit slideshow and 30-page flat lay album</li><li>Wedding video coverage with 3 videographers, 1 video editor, and aerial coverage</li><li>6-minute same-day edit, 10-12 minute highlights, and clean cut documentary</li><li>Pre-wedding photo and video sessions with teaser and edited outputs</li><li>Flash drive for photo and video</li></ul>
+          <a class="package-card__cta" href="#contact">Ask about this package</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="packages__set" id="debut-packages" aria-labelledby="debut-packages-h">
+      <header class="packages__set-head">
+        <div>
+          <p class="packages__kicker">Debut packages</p>
+          <h2 class="packages__title" id="debut-packages-h">Photo and video coverage</h2>
+        </div>
+        <p class="packages__body">Debut coverage follows the same structure as the wedding packages, adjusted for debut day and pre-debut sessions.</p>
+      </header>
+      <div class="package-grid">
+        <article class="package-card"><div class="package-card__head"><p class="package-card__type">Basic photo and video</p><h3 class="package-card__name">Essential debut coverage</h3><p class="package-card__price">₱24,990</p></div><ul class="package-card__items"><li>Debut photo coverage with 2 photographers</li><li>Soft copy of edited photos</li><li>Debut video coverage with 2 videographers</li><li>5-minute debut video highlights</li><li>Flash drive for photo and video</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+        <article class="package-card"><div class="package-card__head"><p class="package-card__type">Standard photo and video</p><h3 class="package-card__name">Debut story with slideshow</h3><p class="package-card__price">₱34,990</p></div><ul class="package-card__items"><li>Debut photo coverage with 2 photographers</li><li>3-4 minute photo slideshow</li><li>Soft copy of edited photos</li><li>Debut video coverage with 3 videographers</li><li>6-8 minute debut video highlights</li><li>Flash drive for photo and video</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+        <article class="package-card package-card--wide"><div class="package-card__head"><p class="package-card__type">Premium photo and video</p><h3 class="package-card__name">Pre-debut and same-day coverage</h3><p class="package-card__price">₱59,990</p></div><ul class="package-card__items"><li>Debut photo coverage with 2 photographers, slideshow, and 30-page flat lay album</li><li>Debut video coverage with 3 videographers and 1 same-day video editor</li><li>4-5 minute same-day edit and 10-minute debut video highlights</li><li>Pre-debut photo session with edited photo and slideshow</li><li>Pre-debut video session with 3-5 minute video</li><li>Flash drive for photo and video</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+        <article class="package-card package-card--wide"><div class="package-card__head"><p class="package-card__type">Deluxe photo and video</p><h3 class="package-card__name">Complete debut archive</h3><p class="package-card__price">₱90,990</p></div><ul class="package-card__items"><li>Debut photo coverage with 2 photographers and 1 same-day photo editor</li><li>Same-day edit slideshow, flat lay album, and soft copy of edited photos</li><li>Debut video coverage with 3 videographers, 1 video editor, and aerial coverage</li><li>Same-day edit, 10-12 minute highlights, and clean cut documentary</li><li>Pre-debut photo and video sessions with teaser and edited outputs</li><li>Flash drive for photo and video</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+      </div>
+    </section>
+
+    <section class="packages__set" id="video-packages" aria-labelledby="video-packages-h">
+      <header class="packages__set-head"><div><p class="packages__kicker">Video coverage only</p><h2 class="packages__title" id="video-packages-h">Film-focused packages</h2></div><p class="packages__body">For events that only need motion coverage, highlight edits, and optional aerial or pre-event video work.</p></header>
+      <div class="package-grid">
+        <article class="package-card"><div class="package-card__head"><p class="package-card__type">Basic video</p><h3 class="package-card__name">Coverage and highlights</h3><p class="package-card__price">₱16,990</p></div><ul class="package-card__items"><li>Wedding or debut video coverage</li><li>2 videographers</li><li>5-6 minute event video highlights</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+        <article class="package-card"><div class="package-card__head"><p class="package-card__type">Standard video</p><h3 class="package-card__name">Aerial and same-day edit</h3><p class="package-card__price">₱29,990</p></div><ul class="package-card__items"><li>Event video coverage with aerial coverage</li><li>3 videographers and 1 same-day video editor</li><li>4-5 minute same-day edit</li><li>8-minute video highlights</li><li>Flash drive for video</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+        <article class="package-card package-card--wide"><div class="package-card__head"><p class="package-card__type">Premium video</p><h3 class="package-card__name">Full video archive</h3><p class="package-card__price">₱44,990</p></div><ul class="package-card__items"><li>Event video coverage with aerial coverage</li><li>3 videographers and 1 same-day video editor</li><li>6-minute same-day edit and 10-12 minute video highlights</li><li>Clean cut documentary</li><li>Pre-event video session with 3-5 minute video and 1-minute teaser</li><li>Flash drive for video</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+      </div>
+    </section>
+
+    <section class="packages__set" id="photo-packages" aria-labelledby="photo-packages-h">
+      <header class="packages__set-head"><div><p class="packages__kicker">Photo coverage only</p><h2 class="packages__title" id="photo-packages-h">Still-image packages</h2></div><p class="packages__body">For clients who need clean photo coverage, edited files, and optional albums or pre-event photo sessions.</p></header>
+      <div class="package-grid">
+        <article class="package-card"><div class="package-card__head"><p class="package-card__type">Basic photo</p><h3 class="package-card__name">Edited event photos</h3><p class="package-card__price">₱16,990</p></div><ul class="package-card__items"><li>Wedding or debut photo coverage</li><li>2 photographers</li><li>Soft copy of edited photos</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+        <article class="package-card"><div class="package-card__head"><p class="package-card__type">Standard photo</p><h3 class="package-card__name">Album plus pre-event session</h3><p class="package-card__price">₱27,990</p></div><ul class="package-card__items"><li>Wedding or debut photo coverage</li><li>2 photographers</li><li>30-page flat lay album</li><li>Soft copy of edited photos</li><li>Pre-event photo session with edited photo</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+        <article class="package-card package-card--wide"><div class="package-card__head"><p class="package-card__type">Premium photo</p><h3 class="package-card__name">Same-day photo story</h3><p class="package-card__price">₱36,990</p></div><ul class="package-card__items"><li>Wedding or debut photo coverage with 2 photographers</li><li>1 same-day photo editor</li><li>3-4 minute same-day edit slideshow</li><li>30-page flat lay album</li><li>Pre-event photo session with slideshow and edited photo</li><li>Soft copy of edited photos</li></ul><a class="package-card__cta" href="#contact">Ask about this package</a></article>
+      </div>
+    </section>
+  </section>
+</main><!-- split:packages:end -->
+
+<!-- ═══ VIEW 3 · STUDIO ═════════════════════════════════════════════════════════════ -->
 <!-- split:studio:start -->
 <main id="main" data-page="studio">
   <section class="studio wrap">
@@ -1064,9 +1234,10 @@ var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion:
   var VIEWS = {
     landing: document.getElementById('landing'),
     films:   document.getElementById('films'),
+    packages: document.getElementById('packages'),
     studio:  document.getElementById('studio')
   };
-  var HASH = { landing: '#top', films: '#films', studio: '#studio' };
+  var HASH = { landing: '#top', films: '#films', packages: '#packages', studio: '#studio' };
   var NAMES = Object.keys(VIEWS);
   var root = document.documentElement;
   var current = null;

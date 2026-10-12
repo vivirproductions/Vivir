@@ -17,7 +17,7 @@ const sources = [
   ["v4-blue", "prototypes/film-v4-blue/index.src.html"],
 ];
 
-const pages = ["landing", "films", "studio"];
+const pages = ["landing", "films", "packages", "studio"];
 
 function requiredMatch(text, pattern, label, sourcePath) {
   const match = text.match(pattern);
@@ -69,6 +69,7 @@ function routeMarkup(text, slug, page) {
     .replaceAll('href="index.html#work"', `href="${base}#work"`)
     .replaceAll('href="films.html#', `href="${base}/films#`)
     .replaceAll('href="films.html"', `href="${base}/films"`)
+    .replaceAll('href="packages.html"', `href="${base}/packages"`)
     .replaceAll('href="studio.html"', `href="${base}/studio"`)
     .replace(currentPage, '$1 aria-current="page"$2');
 }
@@ -83,6 +84,7 @@ const documents = Object.fromEntries(
       header: requiredBlock(html, "header", relativePath),
       landing: requiredBlock(html, "landing", relativePath),
       films: requiredBlock(html, "films", relativePath),
+      packages: requiredBlock(html, "packages", relativePath),
       studio: requiredBlock(html, "studio", relativePath),
       lightbox: requiredBlock(html, "lightbox", relativePath),
       footer: requiredBlock(html, "footer", relativePath),
